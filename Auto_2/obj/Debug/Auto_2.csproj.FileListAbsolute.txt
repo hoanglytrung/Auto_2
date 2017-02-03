@@ -1,0 +1,10 @@
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\bin\Debug\Auto_2.exe.config
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\bin\Debug\Auto_2.exe
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\bin\Debug\Auto_2.pdb
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.csprojResolveAssemblyReference.cache
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.Form1.resources
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.Properties.Resources.resources
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.csproj.GenerateResource.Cache
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.exe
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.pdb
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\bin\Debug\WindowScrape.dll
