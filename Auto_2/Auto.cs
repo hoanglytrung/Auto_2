@@ -14,7 +14,8 @@ namespace Auto_2
     class Auto
     {
         private IntPtr _Handle = FindWindow("RCLIENT", "League of Legends");
-        private Color[,] _Xac_nhan = new Color[155, 25];
+        
+        private static Color[,] _Xac_nhan = new Color[155, 25];
         private static Color[,] _Tim_tran = new Color[155, 25];
         private static Color[,] _Trong_hang_cho = new Color[155, 25];
         private static Color[,] _Dong_y = new Color[95, 25];
@@ -22,41 +23,7 @@ namespace Auto_2
         private static Color[,] _Doi_che_do_choi = new Color[170,30];
         private static Color[,] _Dang_tim_tran = new Color[110, 10];
 
-        public Bitmap PrintWindow1(IntPtr hwnd)
-        {
-            RECT rc = new RECT();
-            GetWindowRect(hwnd, out rc);
-            int w = rc.right - rc.left;
-            int h = rc.bottom - rc.top;
-
-            Bitmap bmp = new Bitmap(w, h, PixelFormat.Format32bppArgb);
-            Graphics gfxBmp = Graphics.FromImage(bmp);
-            IntPtr hdcBitmap = gfxBmp.GetHdc();
-            bool succeeded = PrintWindow(hwnd, hdcBitmap, 0);
-            gfxBmp.ReleaseHdc(hdcBitmap);
-            if (!succeeded)
-            {
-                gfxBmp.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Point.Empty, bmp.Size));
-            }
-            IntPtr hRgn = CreateRectRgn(0, 0, 0, 0);
-            if (hRgn != IntPtr.Zero)
-            {
-                GetWindowRgn(hwnd, hRgn);
-                Region region = Region.FromHrgn(hRgn);
-                if (!region.IsEmpty(gfxBmp))
-                {
-                    gfxBmp.ExcludeClip(region);
-                    gfxBmp.Clear(Color.Transparent);
-                }
-                gfxBmp.Dispose();
-                return bmp;
-            }
-            else
-            {
-                gfxBmp.Dispose();
-                return bmp;
-            }
-        }
+        
         public Auto()
         {
             Bitmap Xac_nhan = Image.FromFile(@"Source/xacnhan.png") as Bitmap;
@@ -109,47 +76,7 @@ namespace Auto_2
         {
             return _Tim_tran;
         }
-        public bool Check(Color[,] _Color, int size_x, int size_y, int x, int y) // x, y là tọa độ bottom-left
-        {
-            Bitmap Screenshot = PrintWindow1(this._Handle);
-            Bitmap tmp = new Bitmap(size_x, size_y);
-            Bitmap tmp1 = new Bitmap(size_x, size_y);
-
-            for (int i = 0; i < size_x; i++)
-            {
-                for (int j = 0; j < size_y; j++)
-                {
-                    tmp.SetPixel(i, j, Screenshot.GetPixel(x + i, y + j));
-                }
-            }
-
-
-            int dem = 0;
-            for (int i = 0; i < size_x; i++)
-            {
-                for (int j = 0; j < size_y; j++)
-                {
-                    if (_Color[i, j] == tmp.GetPixel(i, j))
-                    {
-                        dem++;
-                    }
-                    else
-                    {
-                        tmp1.SetPixel(i, j, tmp.GetPixel(i, j));
-                    }
-                }
-            }
-            //return dem;
-            Screenshot.Dispose();
-            tmp.Dispose();
-            tmp1.Dispose();
-            if (dem > 1000)
-            {
-                return true;
-            }
-            else
-                return false;
-        }
+        
 
        
 
@@ -241,7 +168,43 @@ namespace Auto_2
             public IntPtr ExtraInfo;
         }
 
+        public Bitmap PrintWindow1(IntPtr hwnd)
+        {
+            RECT rc = new RECT();
+            GetWindowRect(hwnd, out rc);
+            int w = rc.right - rc.left;
+            int h = rc.bottom - rc.top;
 
+            Bitmap bmp = new Bitmap(w, h, PixelFormat.Format32bppArgb);
+            Graphics gfxBmp = Graphics.FromImage(bmp);
+            IntPtr hdcBitmap = gfxBmp.GetHdc();
+            bool succeeded = PrintWindow(hwnd, hdcBitmap, 0);
+            gfxBmp.ReleaseHdc(hdcBitmap);
+            if (!succeeded)
+            {
+                gfxBmp.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Point.Empty, bmp.Size));
+            }
+            IntPtr hRgn = CreateRectRgn(0, 0, 0, 0);
+            if (hRgn != IntPtr.Zero)
+            {
+                GetWindowRgn(hwnd, hRgn);
+                Region region = Region.FromHrgn(hRgn);
+                if (!region.IsEmpty(gfxBmp))
+                {
+                    gfxBmp.ExcludeClip(region);
+                    gfxBmp.Clear(Color.Transparent);
+                }
+                gfxBmp.Dispose();
+                return bmp;
+            }
+            else
+            {
+                gfxBmp.Dispose();
+                return bmp;
+            }
+        }
+
+      
 
         public static void ClickOnPoint(IntPtr wndHandle, Point clientPoint)
         {
@@ -267,7 +230,49 @@ namespace Auto_2
             /// return mouse 
             Cursor.Position = oldPos;
         }
-        
+
+        public bool Check(Color[,] _Color, int size_x, int size_y, int x, int y) // x, y là tọa độ bottom-left
+        {
+            Bitmap Screenshot = PrintWindow1(this._Handle);
+            Bitmap tmp = new Bitmap(size_x, size_y);
+            Bitmap tmp1 = new Bitmap(size_x, size_y);
+
+            for (int i = 0; i < size_x; i++)
+            {
+                for (int j = 0; j < size_y; j++)
+                {
+                    tmp.SetPixel(i, j, Screenshot.GetPixel(x + i, y + j));
+                }
+            }
+
+
+            int dem = 0;
+            for (int i = 0; i < size_x; i++)
+            {
+                for (int j = 0; j < size_y; j++)
+                {
+                    if (_Color[i, j] == tmp.GetPixel(i, j))
+                    {
+                        dem++;
+                    }
+                    else
+                    {
+                        tmp1.SetPixel(i, j, tmp.GetPixel(i, j));
+                    }
+                }
+            }
+            //return dem;
+            Screenshot.Dispose();
+            tmp.Dispose();
+            tmp1.Dispose();
+            if (dem > 1000)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
         public void Click_vao_game()
         {
             if (!_Handle.Equals(IntPtr.Zero))
@@ -313,11 +318,18 @@ namespace Auto_2
             }
         }
 
-        public bool Is_handle_exist(IntPtr handle)
+        public bool Is_handle_exist()
         {
-
-            return false;
+            if (FindWindow("RCLIENT", "League of Legends") != IntPtr.Zero)
+            {
+                return true;
+            }
+            else return false;
         }
+
+        
+
+
 
 
 

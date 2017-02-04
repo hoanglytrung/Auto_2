@@ -71,12 +71,14 @@ namespace Auto_2
         const int WM_DESTROY = 0x0002;
         const int WM_GETICON = 0x007F;
 
+        private bool Form_Closed;
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Bạn có chắc chắn muốn thoát chương trình ?", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 e.Cancel = false;
+                Form_Closed = true;
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -184,7 +186,10 @@ namespace Auto_2
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            
             backgroundWorker1.RunWorkerAsync();
+            
+            
             //Take_pic();
             
         }
@@ -342,15 +347,43 @@ namespace Auto_2
             ShowWindow(Class_1, WindowShowStyle.ShowNormal);
         }
 
+
+        delegate void SetTextCallback(string text);
+        private void SetText(string text)
+        {
+            label1.Text = text;
+        } 
+        private void Thread_Check_Client()
+        {
+            Auto _Auto = new Auto();
+            while (!Form_Closed)
+            {
+                if (!_Auto.Is_handle_exist())
+                {
+                    label1.Invoke(new MethodInvoker(delegate { label1.Text = "chưa vào game"; }));
+                }
+                else
+                {
+                    label1.Invoke(new MethodInvoker(delegate { label1.Text = " đã vào game"; }));
+                }
+            }
+            Thread.Sleep(1000);
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            Thread t = new Thread(new ThreadStart(Thread_Check_Client));
+            t.SetApartmentState(ApartmentState.MTA);
+            t.IsBackground = true;
+            t.Start();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            Auto _Auto = new Auto();
-            _Auto.Click_vao_game();
+            
+            
+            
+           // _Auto.Click_vao_game();
         }
     }
 }
