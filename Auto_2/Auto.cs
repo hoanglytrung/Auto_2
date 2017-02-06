@@ -26,7 +26,9 @@ namespace Auto_2
         private static Color[,] _Khoa = new Color[140, 20];
         private static Color[,] _Dau = new Color[123, 40];
         private static Color[,] _Choi_lai = new Color[155, 25];
-
+        
+        
+        
         private int xx, yy;
         private int so_tran;
 
@@ -115,6 +117,8 @@ namespace Auto_2
             //    }
             //}
         }
+
+       
 
         public static Color[,] Xacnhan()
         {
@@ -335,8 +339,11 @@ namespace Auto_2
 
         public void Click_vao_game()
         {
-            while (true)
+            while (Form1.SotrandungAuto() > 0)
             {
+                Form1 fa = new Form1();
+                fa.setlabel("Auto dừng sau " + Form1.SotrandungAuto().ToString() + "trận");
+                       
                 if (Check(_Dau, 123, 40, 67, 20) == true)
                 //if (_Handle != IntPtr.Zero)
                 {
@@ -358,7 +365,6 @@ namespace Auto_2
                 Thread.Sleep(1000);
                 if (Check(_Tim_tran, 155, 25, 535, 675) == true)
                 {
-
                     SetForegroundWindow(_Handle);
                     Thread.Sleep(500);
                     ClickOnPoint(_Handle, new Point(618, 685));
@@ -511,7 +517,7 @@ namespace Auto_2
                                 test.Dispose();
                                 endgame.Dispose();
                                 //src.Dispose();
-                                Thread.Sleep(15000); //10s
+                                Thread.Sleep(Form1.ClickDl()); //milisecond
                                 #endregion
                             }
                             
@@ -529,6 +535,7 @@ namespace Auto_2
                             take_screen_shot("Tran " + so_tran);
                             write_log_file(so_tran.ToString());
                             ClickOnPoint(_Handle, new Point(616, 687));
+                            Form1.GiamSotrandungAuto();
                         }
 
                     }
@@ -662,6 +669,12 @@ namespace Auto_2
                 else return false;
             }
         }
+
+        public void c()
+        {
+           MessageBox.Show(Form1.ClickDl().ToString());
+        }
+
 
 
         #region DLL

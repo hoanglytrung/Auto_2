@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,7 +28,8 @@ namespace Auto_2
         }
 
         Auto _Auto = new Auto();
-        
+
+        #region DLL
         [DllImport("user32.dll", SetLastError = true)]
         static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
         [DllImport("user32.dll", SetLastError = true)]
@@ -56,6 +58,45 @@ namespace Auto_2
         static extern bool PostMessage(IntPtr hWnd, UInt32 Msg, int wParam, int lParam);
         [DllImport("user32.dll")]
         private static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
+        #endregion 
+        
+        private static int _Click_Delay = 20000;
+        public int Click_Delay
+        {
+            set
+            {
+                _Click_Delay = value;
+            }
+            get
+            {
+                return _Click_Delay;
+            }
+        }
+
+        private static int _So_tran_dung_Auto = 99;
+        public int Sotrandung_Auto
+        {
+            set
+            {
+                _So_tran_dung_Auto = value;
+            }
+            get
+            {
+                return _So_tran_dung_Auto;
+            }
+        }
+
+        public string _label3
+        {
+            get
+            {
+                return label3.Text;
+            }
+            set
+            {
+                label3.Text = value;
+            }
+        }
 
         private const uint WM_RBUTTONDOWN = 0x0204;
         private const uint WM_RBUTTONUP = 0x0205;
@@ -274,9 +315,7 @@ namespace Auto_2
 
             //MessageBox.Show(Auto.Check(Auto.Xacnhan(), 155, 25, 535, 675).ToString());
             //pictureBox1.Image = Auto.Check(Auto.Xacnhan(), 155, 25, 535, 675);
-
             
-
         }
         
         private enum WindowShowStyle : uint
@@ -384,13 +423,27 @@ namespace Auto_2
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-           _Auto.Click_vao_game();
+            _Auto.Click_vao_game();
+
+            //while (true)
+            //{
+            //    _Auto.c();
+
+            //    //MessageBox.Show(this.Click_Delay.ToString());
+            //    Thread.Sleep(5000);
+            //}
         }
 
         #region Check_list
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (checkBox1.Checked == true)
+            {
+                textBox1.Enabled = true;
+                textBox1.Text = "1";
+            }
+            else
+                textBox1.Enabled = false;
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -409,7 +462,10 @@ namespace Auto_2
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (checkBox4.Checked == true)
+                textBox2.Enabled = true;
+            else
+                textBox2.Enabled = false;
         }
 
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
@@ -418,5 +474,78 @@ namespace Auto_2
         }
         #endregion
 
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (Int32.Parse(textBox2.Text) > 60)
+            {
+                this.Click_Delay = 60000;
+            }
+            else
+                this.Click_Delay = Int32.Parse(textBox2.Text) * 1000;
+        }
+
+        public static int ClickDl()
+        {
+            return _Click_Delay;
+        }
+
+        public static int SotrandungAuto()
+        {
+            return _So_tran_dung_Auto;
+        }
+
+        public static void GiamSotrandungAuto()
+        {
+            _So_tran_dung_Auto--;          
+        }
+
+        
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            //this.Sotrandung_Auto = Int32.Parse(textBox1.Text);
+            Regex regex = new Regex(@"[^0-9^]");
+            MatchCollection matches = regex.Matches(textBox1.Text);
+            if (matches.Count > 0)
+            {
+               
+            }
+            this.Sotrandung_Auto = Int32.Parse(textBox1.Text);
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Check for a naughty character in the KeyDown event.
+            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[^0-9^]"))
+            {
+                // Stop the character from being entered into the control since it is illegal.
+                e.Handled = true;
+            }
+        }
+
+
+        private Control popup;
+
+        private void checkBox1_MouseEnter(object sender, EventArgs e)
+        {
+            ////MessageBox.Show("A");
+            //testUC mcu = new testUC();
+            //this.popup = mcu; //save references to new control
+            //this.Controls.Add(this.popup);
+            //this.popup.Location = new Point(checkBox1.Location.X - 100, checkBox1.Location.Y - 100);
+            ////this.popup.Location = new Point(100, 100);
+            //this.popup.BringToFront();
+        }
+
+        private void checkBox1_MouseLeave(object sender, EventArgs e)
+        {
+            this.Controls.Remove(this.popup);
+        }
+
+       
+        public  void setlabel(string a)
+        {
+            label3.Text = a;
+        }
     }
 }
