@@ -47,10 +47,12 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -146,6 +148,7 @@
             this.checkBox5.TabIndex = 7;
             this.checkBox5.Text = "Ẩn/hiện auto (Ctrl + F9)";
             this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
             // 
             // textBox2
             // 
@@ -163,6 +166,7 @@
             this.checkBox4.TabIndex = 5;
             this.checkBox4.Text = "Thời gian click chuột             s";
             this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
             // checkBox3
             // 
@@ -173,6 +177,7 @@
             this.checkBox3.TabIndex = 4;
             this.checkBox3.Text = "Tạm dừng auto (Ctrl + F11)";
             this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // textBox1
             // 
@@ -190,6 +195,7 @@
             this.checkBox2.TabIndex = 2;
             this.checkBox2.Text = "Ẩn thanh Taskbar";
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // checkBox1
             // 
@@ -200,6 +206,7 @@
             this.checkBox1.TabIndex = 1;
             this.checkBox1.Text = "Dừng auto sau               trận";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // button1
             // 
@@ -233,6 +240,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label2);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -244,6 +252,15 @@
             // backgroundWorker1
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(180, 32);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(169, 26);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Auto LOL được viết bới Đại Thiên.\r\nABC\r\n";
             // 
             // Form1
             // 
@@ -261,6 +278,8 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -286,6 +305,7 @@
         private System.Windows.Forms.Button button5;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

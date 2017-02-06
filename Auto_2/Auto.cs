@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -22,8 +23,13 @@ namespace Auto_2
         private static Color[,] _Chon_tuong = new Color[100, 20];
         private static Color[,] _Doi_che_do_choi = new Color[170,30];
         private static Color[,] _Dang_tim_tran = new Color[110, 10];
+        private static Color[,] _Khoa = new Color[140, 20];
+        private static Color[,] _Dau = new Color[123, 40];
+        private static Color[,] _Choi_lai = new Color[155, 25];
 
-        
+        private int xx, yy;
+        private int so_tran;
+
         public Auto()
         {
             Bitmap Xac_nhan = Image.FromFile(@"Source/xacnhan.png") as Bitmap;
@@ -32,6 +38,9 @@ namespace Auto_2
             Bitmap Dong_y = Image.FromFile(@"Source/dongy.png") as Bitmap;
             Bitmap Chon_tuong = Image.FromFile(@"Source/chontuong.png") as Bitmap;
             Bitmap Doi_che_do_choi = Image.FromFile(@"Source/doichedochoi.png") as Bitmap;
+            Bitmap Khoa = Image.FromFile(@"Source/khoa.png") as Bitmap;
+            Bitmap Dau = Image.FromFile(@"Source/dau.png") as Bitmap;
+            Bitmap Choi_lai = Image.FromFile(@"Source/choilai.png") as Bitmap;
             for (int i = 0; i < 155; i++)
             {
                 for (int j = 0; j < 25; j++)
@@ -65,11 +74,46 @@ namespace Auto_2
                     _Doi_che_do_choi[i, j] = Doi_che_do_choi.GetPixel(i, j);
                 }
             }
-        }
-        public bool Check_Minimize()
-        {
 
-            return true;
+            for (int i = 0; i < 140; i++)
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                    _Khoa[i, j] = Khoa.GetPixel(i, j);
+                }
+            }
+
+            for (int i = 0; i < 123; i++)
+            {
+                for (int j = 0; j < 40; j++)
+                {
+                    _Dau[i, j] = Dau.GetPixel(i, j);
+                }
+            }
+
+            for (int i = 0; i < 155; i++)
+            {
+                for (int j = 0; j < 25; j++)
+                {
+                    _Choi_lai[i, j] = Choi_lai.GetPixel(i, j);
+                }
+            }
+            string path = @"SoTran\sotran.txt";
+            if (!File.Exists(path))
+            {
+                //File.Create(path);
+                StreamWriter sw = File.CreateText(path);
+                sw.WriteLine("0");
+                sw.Close();
+            }
+            //else if (File.Exists(path))
+            //{
+            //    using (var tw = new StreamWriter(path, true))
+            //    {
+            //        tw.WriteLine("The next line!");
+            //        tw.Close();
+            //    }
+            //}
         }
 
         public static Color[,] Xacnhan()
@@ -175,32 +219,43 @@ namespace Auto_2
             int w = rc.right - rc.left;
             int h = rc.bottom - rc.top;
 
-            Bitmap bmp = new Bitmap(w, h, PixelFormat.Format32bppArgb);
-            Graphics gfxBmp = Graphics.FromImage(bmp);
-            IntPtr hdcBitmap = gfxBmp.GetHdc();
-            bool succeeded = PrintWindow(hwnd, hdcBitmap, 0);
-            gfxBmp.ReleaseHdc(hdcBitmap);
-            if (!succeeded)
+            if (w != 0 && h != 0)
             {
-                gfxBmp.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Point.Empty, bmp.Size));
-            }
-            IntPtr hRgn = CreateRectRgn(0, 0, 0, 0);
-            if (hRgn != IntPtr.Zero)
-            {
-                GetWindowRgn(hwnd, hRgn);
-                Region region = Region.FromHrgn(hRgn);
-                if (!region.IsEmpty(gfxBmp))
+                Bitmap bmp = new Bitmap(w, h, PixelFormat.Format32bppArgb);
+                Graphics gfxBmp = Graphics.FromImage(bmp);
+                IntPtr hdcBitmap = gfxBmp.GetHdc();
+                bool succeeded = PrintWindow(hwnd, hdcBitmap, 0);
+                gfxBmp.ReleaseHdc(hdcBitmap);
+                if (!succeeded)
                 {
-                    gfxBmp.ExcludeClip(region);
-                    gfxBmp.Clear(Color.Transparent);
+                    gfxBmp.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Point.Empty, bmp.Size));
                 }
-                gfxBmp.Dispose();
-                return bmp;
+                IntPtr hRgn = CreateRectRgn(0, 0, 0, 0);
+                if (hRgn != IntPtr.Zero)
+                {
+                    GetWindowRgn(hwnd, hRgn);
+                    Region region = Region.FromHrgn(hRgn);
+                    if (!region.IsEmpty(gfxBmp))
+                    {
+                        gfxBmp.ExcludeClip(region);
+                        gfxBmp.Clear(Color.Transparent);
+                    }
+                    gfxBmp.Dispose();
+                    return bmp;
+                }
+                else
+                {
+                    gfxBmp.Dispose();
+                    return bmp;
+                }
             }
             else
             {
-                gfxBmp.Dispose();
-                return bmp;
+                Bitmap bmp1 = new Bitmap(1280, 720, PixelFormat.Format32bppArgb);
+                Graphics gfxBmp = Graphics.FromImage(bmp1);
+               // IntPtr hdcBitmap = gfxBmp.GetHdc();
+                gfxBmp.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Point.Empty, bmp1.Size));
+                return bmp1;
             }
         }
 
@@ -236,85 +291,254 @@ namespace Auto_2
             Bitmap Screenshot = PrintWindow1(this._Handle);
             Bitmap tmp = new Bitmap(size_x, size_y);
             Bitmap tmp1 = new Bitmap(size_x, size_y);
-
-            for (int i = 0; i < size_x; i++)
-            {
-                for (int j = 0; j < size_y; j++)
-                {
-                    tmp.SetPixel(i, j, Screenshot.GetPixel(x + i, y + j));
-                }
-            }
-
-
+            
             int dem = 0;
-            for (int i = 0; i < size_x; i++)
+
+            if (Screenshot.Width != 160)
             {
-                for (int j = 0; j < size_y; j++)
+                for (int i = 0; i < size_x; i++)
                 {
-                    if (_Color[i, j] == tmp.GetPixel(i, j))
+                    for (int j = 0; j < size_y; j++)
                     {
-                        dem++;
-                    }
-                    else
-                    {
-                        tmp1.SetPixel(i, j, tmp.GetPixel(i, j));
+                        tmp.SetPixel(i, j, Screenshot.GetPixel(x + i, y + j));
                     }
                 }
+
+               // tmp.Save("check.png", ImageFormat.Png);
+                for (int i = 0; i < size_x; i++)
+                {
+                    for (int j = 0; j < size_y; j++)
+                    {
+                        if (_Color[i, j] == tmp.GetPixel(i, j))
+                        {
+                            dem++;
+                        }
+                        else
+                        {
+                            tmp1.SetPixel(i, j, tmp.GetPixel(i, j));
+                        }
+                    }
+                }
+                //return dem;
+                Screenshot.Dispose();
+                tmp.Dispose();
+                tmp1.Dispose();
             }
-            //return dem;
-            Screenshot.Dispose();
-            tmp.Dispose();
-            tmp1.Dispose();
-            if (dem > 1000)
+            if (dem > ((size_x*size_y)/2) )
             {
                 return true;
             }
             else
                 return false;
         }
+        
 
         public void Click_vao_game()
         {
-            if (!_Handle.Equals(IntPtr.Zero))
-            {
-                SetForegroundWindow(_Handle);
-                Thread.Sleep(500);
-                ClickOnPoint(_Handle, new Point(128, 35));
-                Thread.Sleep(500);
-                ClickOnPoint(_Handle, new Point(139, 96));
-                Thread.Sleep(500);
-                ClickOnPoint(_Handle, new Point(400, 546));
-                Thread.Sleep(500);
-            }
             while (true)
             {
+                if (Check(_Dau, 123, 40, 67, 20) == true)
+                //if (_Handle != IntPtr.Zero)
+                {
+                    SetForegroundWindow(_Handle);
+                    Thread.Sleep(500);
+                    ClickOnPoint(_Handle, new Point(128, 35));
+                    Thread.Sleep(500);
+                    ClickOnPoint(_Handle, new Point(139, 96));
+                    Thread.Sleep(500);
+                    ClickOnPoint(_Handle, new Point(400, 546));
+                    Thread.Sleep(500);
+                }
                 if (Check(_Xac_nhan, 155, 25, 535, 675) == true)
                 {
-                    //SetForegroundWindow(_Handle);
+                    SetForegroundWindow(_Handle);
                     Thread.Sleep(500);
                     ClickOnPoint(_Handle, new Point(623, 687));
                 }
-                //while (Check(_Doi_che_do_choi, 170, 30, 680, 105) == true)
-                //{
+                Thread.Sleep(1000);
                 if (Check(_Tim_tran, 155, 25, 535, 675) == true)
                 {
 
-                    //SetForegroundWindow(_Handle);
+                    SetForegroundWindow(_Handle);
                     Thread.Sleep(500);
                     ClickOnPoint(_Handle, new Point(618, 685));
-                    //while (Check(_Dang_tim_tran, 110, 10, 1060, 90) == true)
-                    // {
-
-                    //}
                 }
+                Thread.Sleep(1000);
                 if (Check(_Dong_y, 95, 25, 585, 535) == true)
                 {
                     SetForegroundWindow(_Handle);
                     Thread.Sleep(500);
                     ClickOnPoint(_Handle, new Point(640, 555));
                 }
-                //}
-                //}
+                if (Check(_Chon_tuong, 100, 20, 590, 10) == true)
+                {
+                    Thread.Sleep(500);
+                    int x = 380; //tọa độ atroxx
+                    int y = 145;
+                    while (Check(_Tim_tran, 155, 25, 535, 675) == false)
+                    {
+                        #region pick tướng
+                        while (Check(_Khoa, 140, 20, 570, 570) == true)
+                        {
+                            SetForegroundWindow(_Handle);
+                            ClickOnPoint(_Handle, new Point(x, y));
+                            x += 100;
+                            if (x > 880)
+                            {
+                                x = 380;
+                                y += 100;
+                            }
+                            if (y > 645)
+                            {
+                                y = 145;
+                            }
+                            Thread.Sleep(2000);
+                            ClickOnPoint(_Handle, new Point(640, 580));    //click khóa
+                        }
+                        
+                        #endregion
+
+                        if (check_vao_game() == true)
+                        {
+                            //MessageBox.Show("vào game rồi");
+                            #region kiểm tra đội xanh hay đỏ
+                            //1270 883 mã (163,44,44) = #A32C2C
+                            Color team_red = System.Drawing.ColorTranslator.FromHtml("#172634");
+                            Color team_blue = System.Drawing.ColorTranslator.FromHtml("#2d2125");
+                            var inGame_Screenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
+                            var inGame_gfxScreenshot = Graphics.FromImage(inGame_Screenshot);
+                            inGame_gfxScreenshot.CopyFromScreen(Screen.PrimaryScreen.Bounds.X, Screen.PrimaryScreen.Bounds.Y, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
+                            inGame_Screenshot.Save(@"Source\Screenshot_ingame.png", ImageFormat.Png);
+                            inGame_Screenshot.Dispose();
+                            Bitmap src_2 = Image.FromFile(@"Source\Screenshot_ingame.png") as Bitmap;
+
+                            if (src_2.GetPixel(1227, 881) == team_red)
+                            {
+                                //đội đỏ
+                                //MessageBox.Show("đội đỏ");
+                                xx = 1227;
+                                yy = 881;
+                                //MessageBox.Show(xx.ToString() + " " + yy.ToString());  
+                                // textBox1.Text = "xác định là đội xanh";
+                            }
+                            if (src_2.GetPixel(1423, 685) == team_blue)
+                            {
+                                //MessageBox.Show("đội xanh");
+                                xx = 1421;
+                                yy = 691;
+                                //MessageBox.Show(xx.ToString() + " " + yy.ToString());
+                            }
+
+                            #endregion
+                            
+                            int m = 0;
+                            while (m == 0)
+                            {
+                                #region auto click
+                                #region click
+                                DoMouseRightClick(xx, yy);
+                                //auto_click();
+                                #endregion
+                                #region kiểm tra xem kết thúc game chưa
+                                #region chụp màn hình
+                                var check_endgame_Screenshot_1 = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
+                                var check_endgame_gfxScreenshot_1 = Graphics.FromImage(check_endgame_Screenshot_1);
+                                check_endgame_gfxScreenshot_1.CopyFromScreen(Screen.PrimaryScreen.Bounds.X, Screen.PrimaryScreen.Bounds.Y, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
+                                check_endgame_Screenshot_1.Save(@"Source\Screenshot_1.png", ImageFormat.Png);
+
+
+                                #endregion
+                                #region kiểm tra
+
+                                Bitmap test = Image.FromFile(@"Source\Screenshot_1.png") as Bitmap;
+                                Color[,] pic = new Color[test.Width, test.Height];
+                                for (int i = 680; i < 760; i++)
+                                {
+                                    for (int j = 535; j < 560; j++)
+                                    {
+                                        pic[i, j] = test.GetPixel(i, j);
+                                    }
+                                }
+
+                                Bitmap b = new Bitmap(80, 25);
+                                for (int i = 0; i < 80; i++)
+                                {
+                                    for (int j = 0; j < 25; j++)
+                                    {
+                                        b.SetPixel(i, j, pic[i + 680, j + 535]);
+                                    }
+                                }
+                                b.Save(@"Source\b.png", ImageFormat.Png);
+
+
+                                Bitmap endgame = Image.FromFile(@"Source\b.png") as Bitmap; //endgame là hình chụp màn hình đã được cắt nhỏ ở phần chữ "Tiếp tục"
+                                Bitmap sample_endgame = Image.FromFile(@"Source\endgame.png") as Bitmap;
+
+                                int endgame_pixel = 0;
+                                for (int i = 0; i < 80; i++)
+                                {
+                                    for (int j = 0; j < 25; j++)
+                                    {
+                                        if (endgame.GetPixel(i, j) == sample_endgame.GetPixel(i + 680, j + 535))
+                                        {
+                                            endgame_pixel += 1;
+                                        }
+                                    }
+                                }
+
+                                #region đọc file log ghi số trận
+                                StreamReader sr = File.OpenText(@"SoTran\SoTran.txt");
+                                
+                                so_tran = Int32.Parse(sr.ReadLine()) + 1;
+                                sr.Dispose();
+                                #endregion
+
+                                if (endgame_pixel > 1800)
+                                {
+                                    DoMouseClick(720, 545);
+                                    m = 1;
+                                   // Thread.Sleep(10000);
+                                    //take_screen_shot("Tran " + so_tran);
+                                    //write_log_file(so_tran.ToString());
+
+                                    //so_tran_hien_tai += 1;
+                                }
+                                #endregion
+                                #endregion
+
+                                sample_endgame.Dispose();
+                                check_endgame_Screenshot_1.Dispose();
+                                test.Dispose();
+                                endgame.Dispose();
+                                //src.Dispose();
+                                Thread.Sleep(15000); //10s
+                                #endregion
+                            }
+                            
+                            //DoMouseClick(616, 687); //click đấu lại   
+                            //if (textBox2.InvokeRequired)
+                            {
+                                //textBox2.Invoke(new MethodInvoker(delegate { textBox2.Text = (so_tran_de_dung_auto - 1).ToString(); }));
+                            }
+                          
+                            src_2.Dispose();
+                        }
+                        if (Check(_Choi_lai, 155, 25, 535, 675) == true)
+                        {
+                            SetForegroundWindow(_Handle);
+                            take_screen_shot("Tran " + so_tran);
+                            write_log_file(so_tran.ToString());
+                            ClickOnPoint(_Handle, new Point(616, 687));
+                        }
+
+                    }
+                }
+                if (Check(_Choi_lai, 155, 25, 535, 675) == true)
+                {
+                    SetForegroundWindow(_Handle);
+                    ClickOnPoint(_Handle, new Point(616, 687));
+                }
+                Thread.Sleep(1000);
             }
         }
 
@@ -327,17 +551,117 @@ namespace Auto_2
             else return false;
         }
 
-        
+        private void write_log_file(string text)
+        {
+            string path = @"SoTran\SoTran.txt";
+            StreamWriter sw = File.CreateText(path);
+            sw.Write(text);
+            sw.Dispose();
+        }
 
+        private void take_screen_shot(string file_name_to_save)
+        {
+            var bmpScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
+            var gfxScreenshot = Graphics.FromImage(bmpScreenshot);
+            gfxScreenshot.CopyFromScreen(Screen.PrimaryScreen.Bounds.X, Screen.PrimaryScreen.Bounds.Y, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
+            string tpm = file_name_to_save + ".jpeg";
 
+            string subPath = @"SoTran\";
 
+            System.IO.Directory.CreateDirectory(subPath);
 
+            bmpScreenshot.Save(@"SoTran\" + file_name_to_save + ".jpeg", ImageFormat.Jpeg);
+            bmpScreenshot.Dispose();
+        }
+
+        #region func_Click_ingame
+        [DllImport("user32")]
+        public static extern int SetCursorPos(int x, int y);
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
+        //Mouse actions
+        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        private const int MOUSEEVENTF_LEFTUP = 0x04;
+        private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
+        private const int MOUSEEVENTF_RIGHTUP = 0x10;
+        public void DoMouseRightClick(int x, int y)
+        {
+            SetCursorPos(x, y);
+            mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
+            mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
+        }
+        public void DoMouseClick(int x, int y)
+        {
+            SetCursorPos(x, y);
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+        }
+        #endregion
 
         public void Doi_kich_thuoc_cua_so(int w, int h)
         {
             SetWindowPos(_Handle, IntPtr.Zero, 0, 0, w, h, 6);
         }
 
+        private bool check_vao_game()
+        {
+            int so_pixel = 0;
+
+            using (var bmpScreenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb))
+            {
+
+                var gfxScreenshot = Graphics.FromImage(bmpScreenshot);
+                gfxScreenshot.CopyFromScreen(Screen.PrimaryScreen.Bounds.X, Screen.PrimaryScreen.Bounds.Y, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
+                bmpScreenshot.Save(@"Source\Screenshot_vaogame.png", ImageFormat.Png);
+
+                Color[,] pic = new Color[21, 21];
+                Bitmap sample_question_mark = Image.FromFile(@"Source\vaogame.png") as Bitmap;
+                Bitmap src = Image.FromFile(@"Source\Screenshot_vaogame.png") as Bitmap;
+                for (int i = 1220; i < 1241; i++)
+                {
+                    for (int j = 679; j < 700; j++)
+                    {
+                        try
+                        {
+                            pic[i - 1220, j - 679] = src.GetPixel(i, j);
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show(e.ToString());
+                            MessageBox.Show(i + " " + j);
+                        }
+
+                    }
+                }
+                for (int i = 0; i < sample_question_mark.Width; i++)
+                {
+                    for (int j = 0; j < sample_question_mark.Height; j++)
+                    {
+                        if (pic[i, j] == sample_question_mark.GetPixel(i, j))
+                        {
+                            so_pixel += 1;
+                        }
+                    }
+                }
+                Bitmap _pic = new Bitmap(21, 21);
+                for (int i = 0; i < 21; i++)
+                {
+                    for (int j = 0; j < 21; j++)
+                    {
+                        _pic.SetPixel(i, j, pic[i, j]);
+                    }
+                }
+
+                src.Dispose();
+                bmpScreenshot.Dispose();
+                Thread.Sleep(10000);
+                if (so_pixel == 21 * 21)
+                {
+                    return true;
+                }
+                else return false;
+            }
+        }
 
 
         #region DLL

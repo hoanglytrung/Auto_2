@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -13,6 +14,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowScrape;
+using WindowsFormsApplication1;
+
 namespace Auto_2
 {
     public partial class Form1 : Form
@@ -23,6 +26,7 @@ namespace Auto_2
             
         }
 
+        Auto _Auto = new Auto();
         
         [DllImport("user32.dll", SetLastError = true)]
         static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
@@ -77,13 +81,16 @@ namespace Auto_2
             DialogResult dialogResult = MessageBox.Show("Bạn có chắc chắn muốn thoát chương trình ?", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
+                Taskbar.Show();
                 e.Cancel = false;
                 Form_Closed = true;
+                
             }
             else if (dialogResult == DialogResult.No)
             {
                 e.Cancel = true;
             }
+
         }
         
         public string GetControlText(IntPtr hWnd)
@@ -151,6 +158,7 @@ namespace Auto_2
             IntPtr Window_2 = FindWindow("League of Legends (TM) Client", null);
             IntPtr Class_2 = FindWindowEx(Window_1, IntPtr.Zero, "RiotWindowClass", null);
 
+
             Bitmap a = PrintWindow1(Class_1);
             a.Save("a.png", ImageFormat.Png);
             pictureBox1.Image = a;
@@ -186,11 +194,11 @@ namespace Auto_2
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
             backgroundWorker1.RunWorkerAsync();
             
             
-            //Take_pic();
+           //Take_pic();
             
         }
 
@@ -240,13 +248,13 @@ namespace Auto_2
              //test_click();
           // Click_vao_game();
 
-            //Bitmap a = new Bitmap(110, 10);
+            //Bitmap a = new Bitmap(160, 40);
             //Bitmap b = Image.FromFile("a.png") as Bitmap;
-            //for (int i = 0; i < 110; i++)
+            //for (int i = 0; i < 160; i++)
             //{
-            //    for (int j = 0; j < 10; j++)
+            //    for (int j = 0; j < 40; j++)
             //    {
-            //        a.SetPixel(i, j, b.GetPixel(1060 + i, 90 + j));
+            //        a.SetPixel(i, j, b.GetPixel(30 + i, 20 + j));
             //    }
             //}
             //a.Save("a1.png", ImageFormat.Png);
@@ -266,7 +274,9 @@ namespace Auto_2
 
             //MessageBox.Show(Auto.Check(Auto.Xacnhan(), 155, 25, 535, 675).ToString());
             //pictureBox1.Image = Auto.Check(Auto.Xacnhan(), 155, 25, 535, 675);
+
             
+
         }
         
         private enum WindowShowStyle : uint
@@ -346,16 +356,10 @@ namespace Auto_2
             IntPtr Class = FindWindowEx(Window, IntPtr.Zero, "FIFANG", null);
             ShowWindow(Class_1, WindowShowStyle.ShowNormal);
         }
-
-
-        delegate void SetTextCallback(string text);
-        private void SetText(string text)
-        {
-            label1.Text = text;
-        } 
+        
         private void Thread_Check_Client()
         {
-            Auto _Auto = new Auto();
+            
             while (!Form_Closed)
             {
                 if (!_Auto.Is_handle_exist())
@@ -367,7 +371,7 @@ namespace Auto_2
                     label1.Invoke(new MethodInvoker(delegate { label1.Text = " đã vào game"; }));
                 }
             }
-            Thread.Sleep(1000);
+            Thread.Sleep(2500);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -380,10 +384,39 @@ namespace Auto_2
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            
-            
-            
-           // _Auto.Click_vao_game();
+           _Auto.Click_vao_game();
         }
+
+        #region Check_list
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked == true)
+            {
+                Taskbar.Hide();
+            }
+            else Taskbar.Show();
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
     }
 }
