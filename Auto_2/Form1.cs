@@ -60,6 +60,10 @@ namespace Auto_2
         private static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
         #endregion 
         
+        private bool Checkbox3_check;
+
+        private System.Threading.ManualResetEvent _busy = new System.Threading.ManualResetEvent(false); //pause backgroundworker
+
         private static int _Click_Delay = 20000;
         public int Click_Delay
         {
@@ -86,17 +90,19 @@ namespace Auto_2
             }
         }
 
-        public string _label3
+        private static bool pause = false;
+
+        public static bool GetPauseState()
         {
-            get
-            {
-                return label3.Text;
-            }
-            set
-            {
-                label3.Text = value;
-            }
+            return pause;
         }
+        private static bool stop = false;
+
+        public static bool GetStopState()
+        {
+            return stop;
+        }
+       
 
         private const uint WM_RBUTTONDOWN = 0x0204;
         private const uint WM_RBUTTONUP = 0x0205;
@@ -124,7 +130,9 @@ namespace Auto_2
             {
                 Taskbar.Show();
                 e.Cancel = false;
+                Taskbar.Show();
                 Form_Closed = true;
+                
                 
             }
             else if (dialogResult == DialogResult.No)
@@ -205,7 +213,7 @@ namespace Auto_2
             pictureBox1.Image = a;
             a.Dispose();
         }
-
+            
         public Bitmap PrintWindow1(IntPtr hwnd)
         {
             RECT rc = new RECT();
@@ -233,14 +241,33 @@ namespace Auto_2
             gfxBmp.Dispose();
             return bmp;
         }
+
+        
         private void button1_Click(object sender, EventArgs e)
         {
+            if (!backgroundWorker1.IsBusy)
+            {
+                if (FindWindow("RCLIENT", "League of Legends") != IntPtr.Zero)
+                {
+                    IntPtr Window_1 = FindWindow("League Client", null);
+                    IntPtr Class_1 = FindWindowEx(Window_1, IntPtr.Zero, "RCLIENT", null);
+                    ShowWindow(Class_1, WindowShowStyle.ShowNormal);
+                   
+                    checkBox1.Enabled = true;
+                    checkBox3.Enabled = true;
+                    checkBox4.Enabled = true;
+                    backgroundWorker1.RunWorkerAsync();
+                }
+                else
+                { MessageBox.Show("Game chưa chạy. Vui lòng chạy game trước."); }
+            }
+            else
+            {
+                MessageBox.Show("Auto đang chạy");
+            }
 
-            backgroundWorker1.RunWorkerAsync();
-            
-            
-           //Take_pic();
-            
+
+           
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -391,8 +418,8 @@ namespace Auto_2
         {
             IntPtr Window_1 = FindWindow("League Client", null);
             IntPtr Class_1 = FindWindowEx(Window_1, IntPtr.Zero, "RCLIENT", null);
-            IntPtr Window = FindWindow("FIFA ONLINE3 - Developed by SPEARHEAD", null);
-            IntPtr Class = FindWindowEx(Window, IntPtr.Zero, "FIFANG", null);
+            //IntPtr Window = FindWindow("FIFA ONLINE3 - Developed by SPEARHEAD", null);
+            //IntPtr Class = FindWindowEx(Window, IntPtr.Zero, "FIFANG", null);
             ShowWindow(Class_1, WindowShowStyle.ShowNormal);
         }
         
@@ -415,24 +442,24 @@ namespace Auto_2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Thread t = new Thread(new ThreadStart(Thread_Check_Client));
-            t.SetApartmentState(ApartmentState.MTA);
-            t.IsBackground = true;
-            t.Start();
+            //if (FindWindow("WindowsForms10.Window.8.app.0.141b42a_r14_ad1", "Auto LOL") == IntPtr.Zero)
+            {
+                Thread t = new Thread(new ThreadStart(Thread_Check_Client));
+                t.SetApartmentState(ApartmentState.MTA);
+                t.IsBackground = true;
+                t.Start();
+            }
+           
+
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            //_Auto.test();
             _Auto.Click_vao_game();
-
-            //while (true)
-            //{
-            //    _Auto.c();
-
-            //    //MessageBox.Show(this.Click_Delay.ToString());
-            //    Thread.Sleep(5000);
-            //}
         }
+
+        
 
         #region Check_list
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -443,7 +470,10 @@ namespace Auto_2
                 textBox1.Text = "1";
             }
             else
+            {
                 textBox1.Enabled = false;
+                textBox1.Text = "99";
+            }
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -457,7 +487,12 @@ namespace Auto_2
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (checkBox3.Checked == true)
+            {
+                pause = true;
+            }
+            else
+                pause = false;
         }
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
@@ -470,7 +505,20 @@ namespace Auto_2
 
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
         {
+            
+        }
 
+        private void checkBox6_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox6.Checked == true)
+            {
+                checkBox1.Enabled = false;
+                checkBox3.Enabled = false;
+                checkBox4.Enabled = false;
+                stop = true;
+            }
+            else
+                stop = false;
         }
         #endregion
 
@@ -542,10 +590,23 @@ namespace Auto_2
             this.Controls.Remove(this.popup);
         }
 
-       
-        public  void setlabel(string a)
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            label3.Text = a;
+            MessageBox.Show("Đã dừng Auto");
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            //Take_pic();
+            string date = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss tt");
+            textBox3.Text = date;
+        }
+
+      
+
+        
+
+       
+       
     }
 }
