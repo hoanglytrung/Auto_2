@@ -8,4 +8,5 @@ C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\o
 C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.pdb
 C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\bin\Debug\WindowScrape.dll
 C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.testUC.resources
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.thongbao_txt1.resources
 C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.csprojResolveAssemblyReference.cache

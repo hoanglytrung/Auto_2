@@ -60,7 +60,6 @@ namespace Auto_2
         private static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
         #endregion 
         
-        private bool Checkbox3_check;
 
         private System.Threading.ManualResetEvent _busy = new System.Threading.ManualResetEvent(false); //pause backgroundworker
 
@@ -88,6 +87,16 @@ namespace Auto_2
             {
                 return _So_tran_dung_Auto;
             }
+        }
+
+        public static int SotrandungAuto()
+        {
+            return _So_tran_dung_Auto;
+        }
+
+        public static void GiamSotrandungAuto()
+        {
+            _So_tran_dung_Auto--;
         }
 
         private static bool pause = false;
@@ -141,53 +150,7 @@ namespace Auto_2
             }
 
         }
-        
-        public string GetControlText(IntPtr hWnd)
-        {
-
-            StringBuilder title = new StringBuilder();
-
-            // Get the size of the string required to hold the window title. 
-            Int32 size = SendMessage(hWnd, WM_GETTEXTLENGTH, 0, 0).ToInt32();
-
-            // If the return is 0, there is no title. 
-            if (size > 0)
-            {
-                title = new StringBuilder(size + 1);
-
-                SendMessage(hWnd, WM_GETTEXT, title.Capacity, title);
-
-
-            }
-            return title.ToString();
-        }
-
-        private void aaa()
-        {
-            IntPtr Window = FindWindow("PVP.net Client", null);
-            IntPtr Class = FindWindowEx(Window, IntPtr.Zero, "ApolloRuntimeContentWindow", null);
-
-            IntPtr Window_1 = FindWindow("League Client", null);
-            IntPtr Class_1 = FindWindowEx(Window_1, IntPtr.Zero, "RCLIENT", null);
-
-            bbb();
-
-        }
-
-        private void bbb()
-        {
-            IntPtr Window_1 = FindWindow("League Client", null);
-            IntPtr Class_1 = FindWindowEx(Window_1, IntPtr.Zero, "RCLIENT", null);
-            // Icon i = new Icon("a");
-            IntPtr icon = SendMessage(Class_1, WM_GETICON, 1, 0);
-            dynamic _icon = Icon.FromHandle(icon);
-            dynamic bmp = _icon.ToBitmap();
-
-            pictureBox1.Image = bmp;
-            
-            
-        }
-
+       
         public struct RECT
         {
             public int left;
@@ -278,17 +241,11 @@ namespace Auto_2
             IntPtr Window_1 = FindWindow("League Client", null);
             IntPtr Class_1 = FindWindowEx(Window_1, IntPtr.Zero, "RCLIENT", null);
 
-            try
+            if (Class_1 != IntPtr.Zero)
             {
-                 Process[] proc = Process.GetProcessesByName("LeagueClient");
-                 proc[0].Kill();
+                Process[] proc = Process.GetProcessesByName("LeagueClient");
+                proc[0].Kill();
             }
-            catch (Exception)
-            {
-                
-                throw;
-            }
-
             //SendMessage((int)Class_1, WM_CLOSE, 0, 0);
         }
 
@@ -424,17 +381,18 @@ namespace Auto_2
         }
         
         private void Thread_Check_Client()
-        {
-            
+        {           
             while (!Form_Closed)
             {
                 if (!_Auto.Is_handle_exist())
                 {
                     label1.Invoke(new MethodInvoker(delegate { label1.Text = "chưa vào game"; }));
+                    button2.Invoke(new MethodInvoker(delegate { button2.Enabled = false; }));
                 }
                 else
                 {
                     label1.Invoke(new MethodInvoker(delegate { label1.Text = " đã vào game"; }));
+                    button2.Invoke(new MethodInvoker(delegate { button2.Enabled = true; }));
                 }
             }
             Thread.Sleep(2500);
@@ -453,13 +411,32 @@ namespace Auto_2
 
         }
 
+        string te;
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            //int i = 0;
             //_Auto.test();
             _Auto.Click_vao_game();
+
+
+            //while (true)
+            //{
+            //    te = i++.ToString() + "\r\n";
+            //    Thread.Sleep(1000);
+            //    if (textBox3.InvokeRequired)
+            //    {
+            //        textBox3.Invoke(new MethodInvoker(delegate { textBox3.Text += i++.ToString() + "\r\n"; }));
+            //        Thread.Sleep(1000);
+            //    }
+            //    te += i++.ToString() + "\r\n";
+            //}
         }
 
-        
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("Đã dừng Auto");
+        }
 
         #region Check_list
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -505,14 +482,23 @@ namespace Auto_2
 
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
         {
-            
+            if (checkBox5.Checked == true)
+            {
+                this.Hide();
+                //notifyIcon1.Visible = true;
+                //notifyIcon1.ShowBalloonTip(500);
+            }
+            //else if (FormWindowState.Normal == this.WindowState)
+            //{
+            //    notifyIcon1.Visible = false;
+            //}
         }
 
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox6.Checked == true)
             {
-                checkBox1.Enabled = false;
+                //checkBox1.Enabled = false;
                 checkBox3.Enabled = false;
                 checkBox4.Enabled = false;
                 stop = true;
@@ -520,16 +506,36 @@ namespace Auto_2
             else
                 stop = false;
         }
+
+        private void checkBox7_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (checkBox7.Checked == true)
+            {
+                this.TopMost = true;
+            }
+            else this.TopMost = false;
+        }
+
         #endregion
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if (Int32.Parse(textBox2.Text) > 60)
+            if (textBox2.Text != "")
             {
-                this.Click_Delay = 60000;
+                if (Int32.Parse(textBox2.Text) > 60)
+                {
+                    this.Click_Delay = 60000;
+                }
+
+                else
+                    this.Click_Delay = Int32.Parse(textBox2.Text) * 1000;
             }
             else
-                this.Click_Delay = Int32.Parse(textBox2.Text) * 1000;
+            {
+                textBox2.Text = "20";
+                this.Click_Delay = 20000;
+            }
         }
 
         public static int ClickDl()
@@ -537,18 +543,10 @@ namespace Auto_2
             return _Click_Delay;
         }
 
-        public static int SotrandungAuto()
-        {
-            return _So_tran_dung_Auto;
-        }
-
-        public static void GiamSotrandungAuto()
-        {
-            _So_tran_dung_Auto--;          
-        }
-
         
 
+
+        private Control CTextbox1;
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             //this.Sotrandung_Auto = Int32.Parse(textBox1.Text);
@@ -556,18 +554,31 @@ namespace Auto_2
             MatchCollection matches = regex.Matches(textBox1.Text);
             if (matches.Count > 0)
             {
-               
+
             }
-            this.Sotrandung_Auto = Int32.Parse(textBox1.Text);
+            if (textBox1.Text != "")
+                this.Sotrandung_Auto = Int32.Parse(textBox1.Text);
+            else
+            {
+                textBox1.Text = "1";
+                this.Sotrandung_Auto = 1;
+            }
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Check for a naughty character in the KeyDown event.
-            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[^0-9^]"))
+            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), @"[^0-9^\b]"))
             {
                 // Stop the character from being entered into the control since it is illegal.
                 e.Handled = true;
+                //thongbao_txt1 C1 = new thongbao_txt1();
+                //this.CTextbox1 = C1; //save references to new control
+                //this.Controls.Add(this.CTextbox1);
+                //this.CTextbox1.Location = new Point(150,50);
+                //this.CTextbox1.BringToFront();
+                //Thread.Sleep(3000);
+                //this.Controls.Remove(this.CTextbox1);
             }
         }
 
@@ -587,22 +598,72 @@ namespace Auto_2
 
         private void checkBox1_MouseLeave(object sender, EventArgs e)
         {
-            this.Controls.Remove(this.popup);
+            //this.Controls.Remove(this.CTextbox1);
         }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            MessageBox.Show("Đã dừng Auto");
-        }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            //Take_pic();
-            string date = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss tt");
-            textBox3.Text = date;
+            Take_pic();
+            //string date = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss tt");
+            //textBox3.Text = date;
+            
+        }
+       
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            string path = "log.txt";
+            if (!File.Exists(path))
+            {
+                File.CreateText(path);
+            }
+            else if (File.Exists(path))
+            {
+                StreamReader sr = new StreamReader(path);
+                string log = sr.ReadToEnd();
+                sr.Dispose();
+
+                log += textBox3.Text;
+                StreamWriter sw = new StreamWriter(path);
+                sw.Write(log);
+                sw.Dispose();
+            }
         }
 
-      
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //textBox3.Text += te;
+        }
+
+        
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        {
+            this.Show();
+            checkBox5.Checked = false;
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                //SetForegroundWindow(this.Handle);
+                int x = Control.MousePosition.X;
+                int y = Control.MousePosition.Y;
+               
+                y = y-25;
+                this.contextMenuStrip1.Show(x, y);
+            }
+               
+        }
+         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+         private void toolStripMenuItem1_Click(object sender, EventArgs e)
+         {
+             Application.Exit();
+         }
 
         
 
