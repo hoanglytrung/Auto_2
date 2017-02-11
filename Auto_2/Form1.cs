@@ -60,7 +60,7 @@ namespace Auto_2
         private static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
         #endregion 
         
-
+        
         private System.Threading.ManualResetEvent _busy = new System.Threading.ManualResetEvent(false); //pause backgroundworker
 
         private static int _Click_Delay = 20000;
@@ -100,18 +100,29 @@ namespace Auto_2
         }
 
         private static bool pause = false;
-
         public static bool GetPauseState()
         {
             return pause;
         }
+       
         private static bool stop = false;
-
         public static bool GetStopState()
         {
             return stop;
         }
-       
+
+        private int type_match;
+        public int Type_match
+        {
+            set
+            {
+                this.type_match = value;
+            }
+            get
+            {
+                return this.type_match;
+            }
+        }
 
         private const uint WM_RBUTTONDOWN = 0x0204;
         private const uint WM_RBUTTONUP = 0x0205;
@@ -416,8 +427,14 @@ namespace Auto_2
         {
             //int i = 0;
             //_Auto.test();
-            _Auto.Click_vao_game();
-
+            if (this.type_match == 1)
+            {
+                _Auto.Click_vao_game();
+            }
+            if (this.type_match == 2)
+            {
+                _Auto.Feed_rank();
+            }
 
             //while (true)
             //{
@@ -665,9 +682,102 @@ namespace Auto_2
              Application.Exit();
          }
 
+
+         #region admin tool
+         private bool admin = false;
+         private bool admin_pw = false;
+         private string pic_path;
+         private void textBox4_TextChanged(object sender, EventArgs e)
+         {
+             if (textBox4.Text == "duyen")
+             {
+                 admin = true;
+             }
+         }
+
+         private void textBox5_TextChanged(object sender, EventArgs e)
+         {
+             if (textBox5.Text == "duyen")
+             {
+                 admin_pw = true;
+             }
+         }
+
+         private void button7_Click(object sender, EventArgs e)
+         {
+             if (admin == true && admin_pw == true)
+             {
+                 button8.Visible = true;
+                 button9.Visible = true;
+                 button10.Visible = true;
+                 textBox6.Visible = true;
+                 textBox7.Visible = true;
+                 textBox8.Visible = true;
+                 textBox9.Visible = true;
+                 textBox10.Visible = true;
+             }
+             else
+                 MessageBox.Show("Sai");
+         }
+        
+         private string sFileName;
+         private string[] arrAllFiles;
+         private Bitmap pic;
+         private void button10_Click(object sender, EventArgs e)
+         {
+             OpenFileDialog op = new OpenFileDialog();
+             op.Filter = "Images (*.PNG;*.JPG;*.GIF)|*.PNG;*.JPG;*.GIF|" +
+                                     "All files (*.*)|*.*";
+             String file = op.FileName;
+             if (op.ShowDialog() == DialogResult.OK)
+             {
+                 sFileName = op.FileName;
+                 arrAllFiles = op.FileNames; //used when Multiselect = true           
+             }
+             if (file != "")
+                pic = new Bitmap(sFileName);
+             op.Dispose();
+             //MessageBox.Show(sFileName);             
+         }
+
+        private void crop()
+         {
+             Bitmap a = new Bitmap(Int32.Parse(textBox8.Text) - Int32.Parse(textBox6.Text), Int32.Parse(textBox9.Text) - Int32.Parse(textBox7.Text));
+
+             for (int i = 0; i < Int32.Parse(textBox8.Text) - Int32.Parse(textBox6.Text); i++)
+             {
+                 for (int j = 0; j < Int32.Parse(textBox9.Text) - Int32.Parse(textBox7.Text); j++)
+                 {
+                     a.SetPixel(i, j, pic.GetPixel(Int32.Parse(textBox6.Text) + i, Int32.Parse(textBox7.Text) + j));
+                 }
+             }
+                string save = "Feed\\" + textBox10.Text + ".png";
+             a.Save(save, ImageFormat.Png);
+             a.Dispose();
+             pic.Dispose();
+              textBox6.Clear();
+              textBox7.Clear();
+              textBox8.Clear();
+              textBox9.Clear();
+         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            crop();
+        }
+        #endregion
+
         
 
-       
-       
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            this.type_match = 1;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            this.type_match = 2;
+        }
+
     }
 }

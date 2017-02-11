@@ -27,7 +27,10 @@ namespace Auto_2
         private static Color[,] _Khoa = new Color[140, 20];
         private static Color[,] _Dau = new Color[123, 40];
         private static Color[,] _Choi_lai = new Color[155, 25];
-
+        private static Color[,] _Xep_hang = new Color[451, 28];
+        private static Color[,] _Chon_roll = new Color[149, 101];
+        private static Color[,] _Cam = new Color[125, 40];
+        private static Color[,] _Khoa_cam = new Color[120, 40];
 
         private static bool Pause_Auto;
         private static bool Stop_Auto;
@@ -45,6 +48,10 @@ namespace Auto_2
             Bitmap Khoa = Image.FromFile(@"Source/khoa.png") as Bitmap;
             Bitmap Dau = Image.FromFile(@"Source/dau.png") as Bitmap;
             Bitmap Choi_lai = Image.FromFile(@"Source/choilai.png") as Bitmap;
+            Bitmap Xep_hang = Image.FromFile(@"Source/xephangdong.png") as Bitmap;
+            Bitmap Chon_roll = Image.FromFile(@"Source/chonroll.png") as Bitmap;
+            Bitmap Cam = Image.FromFile(@"Source/cam.png") as Bitmap;
+            Bitmap Khoa_cam = Image.FromFile(@"Source/khoacam.png") as Bitmap;
             for (int i = 0; i < 155; i++)
             {
                 for (int j = 0; j < 25; j++)
@@ -100,6 +107,38 @@ namespace Auto_2
                 for (int j = 0; j < 25; j++)
                 {
                     _Choi_lai[i, j] = Choi_lai.GetPixel(i, j);
+                }
+            }
+
+            for (int i = 0; i < 451; i++)
+            {
+                for (int j = 0; j < 28; j++)
+                {
+                    _Xep_hang[i, j] = Xep_hang.GetPixel(i, j);
+                }
+            }
+
+            for (int i = 0; i < 149; i++)
+            {
+                for (int j = 0; j < 101; j++)
+                {
+                    _Chon_roll[i, j] = Chon_roll.GetPixel(i, j);
+                }
+            }
+
+            for (int i = 0; i < 125; i++)
+            {
+                for (int j = 0; j < 40; j++)
+                {
+                    _Cam[i, j] = Cam.GetPixel(i, j);
+                }
+            }
+
+            for (int i = 0; i < 120; i++)
+            {
+                for (int j = 0; j < 40; j++)
+                {
+                    _Khoa_cam[i, j] = Khoa_cam.GetPixel(i, j);
                 }
             }
             string path = @"SoTran\sotran.txt";
@@ -236,35 +275,38 @@ namespace Auto_2
             int w = rc.right - rc.left;
             int h = rc.bottom - rc.top;
 
-            if ((w != 160 && h != 27) || (w != 0 && h != 0))
+            if ((w != 160 && h != 27) && (w != 0 && h != 0) && (w != 132 && h !=38))
             {
                 Bitmap bmp = new Bitmap(w, h, PixelFormat.Format32bppArgb);
                 Graphics gfxBmp = Graphics.FromImage(bmp);
                 IntPtr hdcBitmap = gfxBmp.GetHdc();
                 bool succeeded = PrintWindow(hwnd, hdcBitmap, 0);
-                gfxBmp.ReleaseHdc(hdcBitmap);
-                if (!succeeded)
-                {
-                    gfxBmp.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Point.Empty, bmp.Size));
-                }
-                IntPtr hRgn = CreateRectRgn(0, 0, 0, 0);
-                if (hRgn != IntPtr.Zero)
-                {
-                    GetWindowRgn(hwnd, hRgn);
-                    Region region = Region.FromHrgn(hRgn);
-                    if (!region.IsEmpty(gfxBmp))
+
+                    gfxBmp.ReleaseHdc(hdcBitmap);
+                    if (!succeeded)
                     {
-                        gfxBmp.ExcludeClip(region);
-                        gfxBmp.Clear(Color.Transparent);
+                        gfxBmp.FillRectangle(new SolidBrush(Color.Gray), new Rectangle(Point.Empty, bmp.Size));
                     }
-                    gfxBmp.Dispose();
-                    return bmp;
-                }
-                else
-                {
-                    gfxBmp.Dispose();
-                    return bmp;
-                }
+                        IntPtr hRgn = CreateRectRgn(0, 0, 0, 0);
+                        if (hRgn != IntPtr.Zero)
+                        {
+                            GetWindowRgn(hwnd, hRgn);
+                            Region region = Region.FromHrgn(hRgn);
+                            if (!region.IsEmpty(gfxBmp))
+                            {
+                                gfxBmp.ExcludeClip(region);
+                                gfxBmp.Clear(Color.Transparent);
+                            }
+                            gfxBmp.Dispose();
+                            return bmp;
+                        }
+
+
+                        else
+                        {
+                            gfxBmp.Dispose();
+                            return bmp;
+                        }
             }
             else
             {
@@ -311,7 +353,7 @@ namespace Auto_2
             
             int dem = 0;
 
-            if (Screenshot.Width != 132)
+            if (Screenshot.Width != 160 && Screenshot.Width != 132)// Screenshot.Width != 132)
             {
                 for (int i = 0; i < size_x; i++)
                 {
@@ -404,6 +446,7 @@ namespace Auto_2
                         SetPause(); SetStop();
                     }
                     #endregion
+                   
                     Thread.Sleep(300);
                     #region Xác nhận
                     if (Check(_Xac_nhan, 155, 25, 535, 675) == true && Pause_Auto == false && Stop_Auto == false)
@@ -419,13 +462,12 @@ namespace Auto_2
                     #region Tìm trận
                     if (Check(_Tim_tran, 155, 25, 535, 675) == true && Pause_Auto == false && Stop_Auto == false)
                     {
-                        
+
                         SetForegroundWindow(_Handle);
                         Thread.Sleep(200);
-                        //ClickOnPoint(_Handle, new Point(618, 685));
+                        ClickOnPoint(_Handle, new Point(618, 685));
                         Update_log_textbox("Click tỉm trận");
-                        SetPause(); SetStop();    
-                        
+                        SetPause(); SetStop();
                     }
                     #endregion
                     Thread.Sleep(300);
@@ -763,7 +805,322 @@ namespace Auto_2
            MessageBox.Show(Form1.ClickDl().ToString());
         }
 
+        #region Feed_Rank
+        public void Feed_rank()
+        {
+            SetPause();
+            SetStop();
+            while (Pause_Auto == false && Stop_Auto == false)
+            {
+                while (Form1.SotrandungAuto() > 0 && Pause_Auto == false && Stop_Auto == false)
+                {
+                    #region Auto
 
+                    #region label3
+                    TabControl lb = Application.OpenForms["Form1"].Controls["tabControl1"] as TabControl; //.Controls["TabPages[0]"].Controls["label4"]
+                    if (lb.InvokeRequired)
+                    {
+                        lb.Invoke(new MethodInvoker(delegate { lb.SelectedTab.Controls["label3"].Text = "Auto dừng sau " + Form1.SotrandungAuto().ToString() + " trận"; }));
+                    }
+                    #endregion
+
+                     #region Đấu
+                    if (Check(_Dau, 123, 40, 67, 20) == true && Pause_Auto == false && Stop_Auto == false)
+                    {
+                        SetForegroundWindow(_Handle);
+                        Thread.Sleep(700);
+                        ClickOnPoint(_Handle, new Point(128, 35));
+                        Thread.Sleep(700);
+                        ClickOnPoint(_Handle, new Point(46, 97));
+                        Thread.Sleep(700);
+                        ClickOnPoint(_Handle, new Point(177, 555));
+                        Thread.Sleep(700);
+                        Update_log_textbox("Tạo phòng đấu với máy");
+                        SetPause(); SetStop();
+                    }
+                    #endregion
+                    Thread.Sleep(300);
+                    #region Xác nhận
+                    if (Check(_Xac_nhan, 155, 25, 535, 675) == true && Pause_Auto == false && Stop_Auto == false)
+                    {
+                        SetForegroundWindow(_Handle);
+                        Thread.Sleep(500);
+                        ClickOnPoint(_Handle, new Point(623, 687));
+                        Update_log_textbox("Click xác nhận");
+                        SetPause(); SetStop();
+                    }
+                    #endregion
+                    Thread.Sleep(300);
+                    #region Xếp hạng
+                    if (Check(_Xep_hang, 451, 28, 94, 94) == true && Pause_Auto == false && Stop_Auto == false)
+                    {
+                        SetForegroundWindow(_Handle);
+                        Thread.Sleep(500);
+                        ClickOnPoint(_Handle, new Point(483, 450));
+                        SetPause(); SetStop();
+                    }
+                    #endregion
+                    Thread.Sleep(300);
+                    #region Chọn roll
+                    if (Check(_Chon_roll, 149, 101, 410, 410) == true && Pause_Auto == false && Stop_Auto == false)
+                    {
+                        SetForegroundWindow(_Handle);
+                        Thread.Sleep(500);
+                        ClickOnPoint(_Handle, new Point(483, 550));
+                        Update_log_textbox("Đã chọn roll support");
+                        SetPause(); SetStop();
+                    }
+                    #endregion
+                    Thread.Sleep(300);
+                    #region Tìm trận
+                    if (Check(_Tim_tran, 155, 25, 535, 675) == true && Pause_Auto == false && Stop_Auto == false)
+                    {
+
+                        SetForegroundWindow(_Handle);
+                        Thread.Sleep(200);
+                        ClickOnPoint(_Handle, new Point(618, 685));
+                        Update_log_textbox("Click tỉm trận");
+                        SetPause(); SetStop();
+                    }
+                    #endregion
+                    Thread.Sleep(300);
+                    #region Đồng ý
+                    if (Check(_Dong_y, 95, 25, 585, 535) == true && Pause_Auto == false && Stop_Auto == false)
+                    {
+                        SetForegroundWindow(_Handle);
+                        Thread.Sleep(500);
+                        ClickOnPoint(_Handle, new Point(640, 555));
+                        Update_log_textbox("Click đồng ý");
+                        SetPause(); SetStop();
+                    }
+                    #endregion
+                    Thread.Sleep(300);
+                    #region Cấm
+                    if (Check(_Cam, 125, 40, 580, 1) == true && Pause_Auto == false && Stop_Auto == false)
+                    {
+                        Thread.Sleep(500);
+                        int x = 380; //tọa độ atroxx
+                        int y = 145;
+                        while (Check(_Khoa_cam, 120, 40, 580, 1) == true && Pause_Auto == false && Stop_Auto == false)
+                        {
+                            SetForegroundWindow(_Handle);
+                            Thread.Sleep(2000);
+                            ClickOnPoint(_Handle, new Point(x, y));
+                            x += 100;
+                            if (x > 880)
+                            {
+                                x = 380;
+                                y += 100;
+                            }
+                            if (y > 645)
+                            {
+                                y = 145;
+                            }
+                            Thread.Sleep(2000);
+                            ClickOnPoint(_Handle, new Point(640, 580));    //click khóa
+                            Update_log_textbox("Đã cấm tướng");
+                            SetPause(); SetStop();
+                        }
+                        SetPause(); SetStop();
+                    }
+                    #endregion
+                    Thread.Sleep(300);
+                    #region Chọn tướng
+                    if (Check(_Chon_tuong, 100, 20, 590, 10) == true && Pause_Auto == false && Stop_Auto == false)
+                    {
+                        Thread.Sleep(500);
+                        int x = 380; //tọa độ atroxx
+                        int y = 145;
+                        //while (Check(_Tim_tran, 155, 25, 535, 675) == false && Pause_Auto == false && Stop_Auto == false)
+                        {
+                            while (Check(_Khoa, 140, 20, 570, 570) == true && Pause_Auto == false && Stop_Auto == false)
+                            {
+                                SetForegroundWindow(_Handle);
+                                Thread.Sleep(2000);
+                                ClickOnPoint(_Handle, new Point(x, y));
+                                x += 100;
+                                if (x > 880)
+                                {
+                                    x = 380;
+                                    y += 100;
+                                }
+                                if (y > 645)
+                                {
+                                    y = 145;
+                                }
+                                Thread.Sleep(2000);
+                                ClickOnPoint(_Handle, new Point(640, 580));    //click khóa
+                                Update_log_textbox("Đã chọn tướng");
+                                SetPause(); SetStop();
+                            }
+                        }
+                    }
+                    #endregion
+                    Thread.Sleep(300);
+                    #region vào game
+                    if (check_vao_game() == true && Pause_Auto == false && Stop_Auto == false)
+                    {
+                        #region kiểm tra đội xanh hay đỏ
+                        //1270 883 mã (163,44,44) = #A32C2C
+                        Color team_red = System.Drawing.ColorTranslator.FromHtml("#172634");
+                        Color team_blue = System.Drawing.ColorTranslator.FromHtml("#2d2125");
+                        var inGame_Screenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
+                        var inGame_gfxScreenshot = Graphics.FromImage(inGame_Screenshot);
+                        inGame_gfxScreenshot.CopyFromScreen(Screen.PrimaryScreen.Bounds.X, Screen.PrimaryScreen.Bounds.Y, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
+                        inGame_Screenshot.Save(@"Source\Screenshot_ingame.png", ImageFormat.Png);
+                        inGame_Screenshot.Dispose();
+                        Bitmap src_2 = Image.FromFile(@"Source\Screenshot_ingame.png") as Bitmap;
+
+                        if (src_2.GetPixel(1227, 881) == team_red)
+                        {
+                            //đội đỏ
+                            xx = 1227;
+                            yy = 881;
+                            Update_log_textbox("Xác định đội đỏ");
+                        }
+                        if (src_2.GetPixel(1423, 685) == team_blue)
+                        {
+                            //đội xanh
+                            xx = 1421;
+                            yy = 691;
+                            Update_log_textbox("Xác định đội xanh");
+                        }
+
+                        #endregion
+                        SetPause(); SetStop();
+
+                        int m = 0;
+                        while (m == 0 && Pause_Auto == false && Stop_Auto == false)
+                        {
+                            #region auto click
+                            #region click
+                            Thread.Sleep(Form1.ClickDl()); //milisecond
+                            DoMouseRightClick(xx, yy);
+                            #endregion
+                            #region kiểm tra xem kết thúc game chưa
+                            #region chụp màn hình
+                            var check_endgame_Screenshot_1 = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, PixelFormat.Format32bppArgb);
+                            var check_endgame_gfxScreenshot_1 = Graphics.FromImage(check_endgame_Screenshot_1);
+                            check_endgame_gfxScreenshot_1.CopyFromScreen(Screen.PrimaryScreen.Bounds.X, Screen.PrimaryScreen.Bounds.Y, 0, 0, Screen.PrimaryScreen.Bounds.Size, CopyPixelOperation.SourceCopy);
+                            check_endgame_Screenshot_1.Save(@"Source\Screenshot_1.png", ImageFormat.Png);
+
+
+                            #endregion
+                            #region kiểm tra
+
+                            Bitmap test = Image.FromFile(@"Source\Screenshot_1.png") as Bitmap;
+                            Color[,] pic = new Color[test.Width, test.Height];
+                            for (int i = 680; i < 760; i++)
+                            {
+                                for (int j = 535; j < 560; j++)
+                                {
+                                    pic[i, j] = test.GetPixel(i, j);
+                                }
+                            }
+
+                            Bitmap b = new Bitmap(80, 25);
+                            for (int i = 0; i < 80; i++)
+                            {
+                                for (int j = 0; j < 25; j++)
+                                {
+                                    b.SetPixel(i, j, pic[i + 680, j + 535]);
+                                }
+                            }
+                            b.Save(@"Source\b.png", ImageFormat.Png);
+
+
+                            Bitmap endgame = Image.FromFile(@"Source\b.png") as Bitmap; //endgame là hình chụp màn hình đã được cắt nhỏ ở phần chữ "Tiếp tục"
+                            Bitmap sample_endgame = Image.FromFile(@"Source\endgame.png") as Bitmap;
+
+                            int endgame_pixel = 0;
+                            for (int i = 0; i < 80; i++)
+                            {
+                                for (int j = 0; j < 25; j++)
+                                {
+                                    if (endgame.GetPixel(i, j) == sample_endgame.GetPixel(i + 680, j + 535))
+                                    {
+                                        endgame_pixel += 1;
+                                    }
+                                }
+                            }
+
+                            #region đọc file log ghi số trận
+                            StreamReader sr = File.OpenText(@"SoTran\SoTran.txt");
+
+                            so_tran = Int32.Parse(sr.ReadLine()) + 1;
+                            sr.Dispose();
+                            #endregion
+
+                            
+
+                            if (endgame_pixel > 1800)
+                            {
+                                DoMouseClick(720, 545);
+                                m = 1;
+                                Update_log_textbox("Xong trận");
+                            }
+                            #endregion
+                            #endregion
+
+                            sample_endgame.Dispose();
+                            check_endgame_Screenshot_1.Dispose();
+                            test.Dispose();
+                            endgame.Dispose();
+                            #endregion
+                            SetPause(); SetStop();
+                        }
+                        src_2.Dispose();
+                        SetPause(); SetStop();
+
+                        #region chờ chụp màn hình xong trận
+                        int n = 0;
+                        while (n == 0)
+                        {
+                            if (Check(_Choi_lai, 155, 25, 535, 675) == true && Pause_Auto == false && Stop_Auto == false)
+                            {
+                                SetForegroundWindow(_Handle);
+                                Thread.Sleep(2000);
+                                Taskbar.Show();
+                                take_screen_shot("Tran " + so_tran);
+                                Taskbar.Hide();
+                                write_log_file(so_tran.ToString());
+                                ClickOnPoint(_Handle, new Point(616, 687));
+                                Form1.GiamSotrandungAuto();
+                                n = 1;
+                                Update_log_textbox("Chơi lại");
+                                SetPause(); SetStop();
+                            }
+                        }
+                        #endregion
+                    }
+                    #endregion
+                    Thread.Sleep(300);
+                    if (Check(_Choi_lai, 155, 25, 535, 675) == true && Pause_Auto == false && Stop_Auto == false)
+                    {
+                        SetForegroundWindow(_Handle);
+                        ClickOnPoint(_Handle, new Point(616, 687));
+                        Update_log_textbox("Chơi lại");
+                        SetPause(); SetStop();
+                    }
+
+                    Thread.Sleep(300);
+                    SetPause(); SetStop();
+                    #endregion
+                }
+                SetPause(); SetStop();
+                while (Pause_Auto == true)
+                {
+                    SetPause(); SetStop();
+                    Thread.Sleep(500);
+                }
+                if (Form1.SotrandungAuto() == 0)
+                {
+                    MessageBox.Show("Đã hoàn thành số trận");
+                    Stop_Auto =false;
+                }
+            }
+        }
+        #endregion
 
         #region DLL
         [DllImport("user32.dll", SetLastError = true)]
