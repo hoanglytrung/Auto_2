@@ -31,6 +31,8 @@ namespace Auto_2
         private static Color[,] _Chon_roll = new Color[149, 101];
         private static Color[,] _Cam = new Color[125, 40];
         private static Color[,] _Khoa_cam = new Color[120, 40];
+        private static Color[,] _Cam_button = new Color[172, 42];
+
 
         private static bool Pause_Auto;
         private static bool Stop_Auto;
@@ -52,6 +54,8 @@ namespace Auto_2
             Bitmap Chon_roll = Image.FromFile(@"Source/chonroll.png") as Bitmap;
             Bitmap Cam = Image.FromFile(@"Source/cam.png") as Bitmap;
             Bitmap Khoa_cam = Image.FromFile(@"Source/khoacam.png") as Bitmap;
+            Bitmap Cam_button = Image.FromFile(@"Source/cam_button.png") as Bitmap;
+
             for (int i = 0; i < 155; i++)
             {
                 for (int j = 0; j < 25; j++)
@@ -141,6 +145,15 @@ namespace Auto_2
                     _Khoa_cam[i, j] = Khoa_cam.GetPixel(i, j);
                 }
             }
+
+            for (int i = 0; i < 172; i++)
+            {
+                for (int j = 0; j < 42; j++)
+                {
+                    _Cam_button[i, j] = Cam_button.GetPixel(i, j);
+                }
+            }
+
             string path = @"SoTran\sotran.txt";
             if (!File.Exists(path))
             {
@@ -898,12 +911,15 @@ namespace Auto_2
                     #region Cấm
                     if (Check(_Cam, 125, 40, 580, 1) == true && Pause_Auto == false && Stop_Auto == false)
                     {
-                        Thread.Sleep(500);
-                        int x = 380; //tọa độ atroxx
-                        int y = 145;
-                        while (Check(_Khoa_cam, 120, 40, 580, 1) == true && Pause_Auto == false && Stop_Auto == false)
+                        //Thread.Sleep(500);
+                        int x = 1280; //tọa độ atroxx
+                        int y = 345;
+                        SetForegroundWindow(_Handle);
+                        Thread.Sleep(1500);
+
+                        while (Check(_Cam_button, 172, 42, 554, 562) == true && Pause_Auto == false && Stop_Auto == false)
                         {
-                            SetForegroundWindow(_Handle);
+                            //SetForegroundWindow(_Handle);
                             Thread.Sleep(2000);
                             ClickOnPoint(_Handle, new Point(x, y));
                             x += 100;
@@ -916,14 +932,20 @@ namespace Auto_2
                             {
                                 y = 145;
                             }
-                            Thread.Sleep(2000);
+                            Thread.Sleep(500);
                             ClickOnPoint(_Handle, new Point(640, 580));    //click khóa
                             Update_log_textbox("Đã cấm tướng");
                             SetPause(); SetStop();
                         }
-                        SetPause(); SetStop();
                     }
                     #endregion
+
+                    //if (Check(_Khoa_cam, 120, 40, 580, 1) == true && Pause_Auto == false && Stop_Auto == false)
+                    //{
+                    //    Thread.Sleep(1500);
+                    //    ClickOnPoint(_Handle, new Point(640, 580));    //click khóa
+                    //    SetPause(); SetStop();
+                    //}
                     Thread.Sleep(300);
                     #region Chọn tướng
                     if (Check(_Chon_tuong, 100, 20, 590, 10) == true && Pause_Auto == false && Stop_Auto == false)

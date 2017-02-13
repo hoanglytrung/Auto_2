@@ -187,7 +187,21 @@ namespace Auto_2
             pictureBox1.Image = a;
             a.Dispose();
         }
-            
+        private Bitmap _Take_pic()
+        {
+            IntPtr Window = FindWindow("FIFA ONLINE3 - Developed by SPEARHEAD", null);
+            IntPtr Class = FindWindowEx(Window, IntPtr.Zero, "FIFANG", null);
+
+            IntPtr Window_1 = FindWindow("League Client", null);
+            IntPtr Class_1 = FindWindowEx(Window_1, IntPtr.Zero, "RCLIENT", null);
+
+            IntPtr Window_2 = FindWindow("League of Legends (TM) Client", null);
+            IntPtr Class_2 = FindWindowEx(Window_1, IntPtr.Zero, "RiotWindowClass", null);
+
+
+            Bitmap a = PrintWindow1(Class_1);
+            return a;
+        }
         public Bitmap PrintWindow1(IntPtr hwnd)
         {
             RECT rc = new RECT();
@@ -435,7 +449,10 @@ namespace Auto_2
             {
                 _Auto.Feed_rank();
             }
-
+            else
+            {
+                MessageBox.Show("Vui lòng chọn chế độ auto");
+            }
             //while (true)
             //{
             //    te = i++.ToString() + "\r\n";
@@ -571,7 +588,6 @@ namespace Auto_2
             MatchCollection matches = regex.Matches(textBox1.Text);
             if (matches.Count > 0)
             {
-
             }
             if (textBox1.Text != "")
                 this.Sotrandung_Auto = Int32.Parse(textBox1.Text);
@@ -580,6 +596,7 @@ namespace Auto_2
                 textBox1.Text = "1";
                 this.Sotrandung_Auto = 1;
             }
+            
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
@@ -589,15 +606,31 @@ namespace Auto_2
             {
                 // Stop the character from being entered into the control since it is illegal.
                 e.Handled = true;
-                //thongbao_txt1 C1 = new thongbao_txt1();
-                //this.CTextbox1 = C1; //save references to new control
-                //this.Controls.Add(this.CTextbox1);
-                //this.CTextbox1.Location = new Point(150,50);
-                //this.CTextbox1.BringToFront();
-                //Thread.Sleep(3000);
-                //this.Controls.Remove(this.CTextbox1);
+
+                //ToolTip tp = new ToolTip();
+                //tp.ToolTipIcon = ToolTipIcon.Error;
+                //tp.AutoPopDelay = 500;
+                //tp.ToolTipTitle = "Unacceptable Character";
+                //tp.Show("You can only type a number here.", textBox1);
+                long GWL_STYLE = -16;
+                int ES_NUMBER = 8192;
+                int lStyle;
+                lStyle = GetWindowLong(textBox1.Handle, -16);
+                SetWindowLong(textBox1.Handle, -16, (lStyle | 8192));
             }
+            
         }
+
+
+
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        [DllImport("user32.dll")]
+        static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+       
+
 
 
         private Control popup;
@@ -734,7 +767,7 @@ namespace Auto_2
                  sFileName = op.FileName;
                  arrAllFiles = op.FileNames; //used when Multiselect = true           
              }
-             if (file != "")
+             if (sFileName != "")
                 pic = new Bitmap(sFileName);
              op.Dispose();
              //MessageBox.Show(sFileName);             
@@ -777,6 +810,29 @@ namespace Auto_2
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             this.type_match = 2;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Bitmap tmp = _Take_pic();
+            Bitmap a = new Bitmap(32,32);
+
+            for (int i = 0; i < 32; i++)
+            {
+                for (int j = 0; j < 32; j++)
+                {
+                    a.SetPixel(i, j, tmp.GetPixel(56 + i, 276 + j));
+                }
+            }
+            string save = "Champions\\" + textBox10.Text + ".png";
+            a.Save(save, ImageFormat.Png);
+            a.Dispose();
+            tmp.Dispose();
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
         }
 
     }
