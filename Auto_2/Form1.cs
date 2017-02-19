@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Auto_2.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,12 +9,14 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Resources;
 using WindowScrape;
 using WindowsFormsApplication1;
 
@@ -28,6 +31,7 @@ namespace Auto_2
         }
 
         Auto _Auto = new Auto();
+        Auto_new _AutoN = new Auto_new();
 
         #region DLL
         [DllImport("user32.dll", SetLastError = true)]
@@ -60,9 +64,7 @@ namespace Auto_2
         private static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
         #endregion 
         
-        
-        private System.Threading.ManualResetEvent _busy = new System.Threading.ManualResetEvent(false); //pause backgroundworker
-
+     
         private static int _Click_Delay = 20000;
         public int Click_Delay
         {
@@ -324,7 +326,9 @@ namespace Auto_2
 
             //MessageBox.Show(Auto.Check(Auto.Xacnhan(), 155, 25, 535, 675).ToString());
             //pictureBox1.Image = Auto.Check(Auto.Xacnhan(), 155, 25, 535, 675);
+
             
+
         }
         
         private enum WindowShowStyle : uint
@@ -436,7 +440,7 @@ namespace Auto_2
 
         }
 
-        string te;
+      
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             //int i = 0;
@@ -452,6 +456,7 @@ namespace Auto_2
             else
             {
                 MessageBox.Show("Vui lòng chọn chế độ auto");
+                this.type_match = 0;
             }
             //while (true)
             //{
@@ -469,7 +474,10 @@ namespace Auto_2
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            MessageBox.Show("Đã dừng Auto");
+            if (type_match != 0)
+            {
+                MessageBox.Show("Đã dừng Auto");
+            }
         }
 
         #region Check_list
@@ -588,6 +596,7 @@ namespace Auto_2
             MatchCollection matches = regex.Matches(textBox1.Text);
             if (matches.Count > 0)
             {
+
             }
             if (textBox1.Text != "")
                 this.Sotrandung_Auto = Int32.Parse(textBox1.Text);
@@ -612,11 +621,7 @@ namespace Auto_2
                 //tp.AutoPopDelay = 500;
                 //tp.ToolTipTitle = "Unacceptable Character";
                 //tp.Show("You can only type a number here.", textBox1);
-                long GWL_STYLE = -16;
-                int ES_NUMBER = 8192;
-                int lStyle;
-                lStyle = GetWindowLong(textBox1.Handle, -16);
-                SetWindowLong(textBox1.Handle, -16, (lStyle | 8192));
+                
             }
             
         }
@@ -628,9 +633,6 @@ namespace Auto_2
         static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         [DllImport("user32.dll")]
         static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-       
-
 
 
         private Control popup;
@@ -678,6 +680,8 @@ namespace Auto_2
                 sw.Write(log);
                 sw.Dispose();
             }
+            textBox3.SelectionStart = textBox3.Text.Length;
+            textBox3.ScrollToCaret();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -835,5 +839,32 @@ namespace Auto_2
 
         }
 
+        private void textBox11_TextChanged(object sender, EventArgs e)
+        {
+            textBox11.SelectionStart = textBox11.Text.Length;
+            textBox11.ScrollToCaret();
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            backgroundWorker2.RunWorkerAsync();
+        }
+
+        private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (this.type_match == 1)
+            {
+                _AutoN.Feed_bot();
+            }
+            if (this.type_match == 2)
+            {
+                _AutoN.Feed_rank_2();
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn chế độ auto");
+                this.type_match = 0;
+            }
+        }
     }
 }
