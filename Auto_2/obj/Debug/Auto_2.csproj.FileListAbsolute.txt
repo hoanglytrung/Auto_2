@@ -10,3 +10,7 @@ C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\b
 C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.testUC.resources
 C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.thongbao_txt1.resources
 C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\obj\Debug\Auto_2.csprojResolveAssemblyReference.cache
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\bin\Debug\EF.RiotApi.dll
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\bin\Debug\Newtonsoft.Json.dll
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\bin\Debug\EF.RiotApi.xml
+C:\Users\BarryAllen\Documents\Visual Studio 2013\Projects\Auto_2\Auto_2\Auto_2\bin\Debug\Newtonsoft.Json.xml

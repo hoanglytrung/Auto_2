@@ -847,7 +847,27 @@ namespace Auto_2
 
         private void button11_Click(object sender, EventArgs e)
         {
-            backgroundWorker2.RunWorkerAsync();
+            if (!backgroundWorker1.IsBusy)
+            {
+                if (FindWindow("RCLIENT", "League of Legends") != IntPtr.Zero)
+                {
+                    IntPtr Window_1 = FindWindow("League Client", null);
+                    IntPtr Class_1 = FindWindowEx(Window_1, IntPtr.Zero, "RCLIENT", null);
+                    ShowWindow(Class_1, WindowShowStyle.ShowNormal);
+
+                    checkBox1.Enabled = true;
+                    checkBox3.Enabled = true;
+                    checkBox4.Enabled = true;
+                    backgroundWorker2.RunWorkerAsync();
+                }
+                else
+                { MessageBox.Show("Game chưa chạy. Vui lòng chạy game trước."); }
+            }
+            else
+            {
+                MessageBox.Show("Auto đang chạy");
+            }
+           
         }
 
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
@@ -858,13 +878,18 @@ namespace Auto_2
             }
             if (this.type_match == 2)
             {
-                _AutoN.Feed_rank_2();
+                _AutoN.Feed_rank_3();
             }
             else
             {
                 MessageBox.Show("Vui lòng chọn chế độ auto");
                 this.type_match = 0;
             }
+        }
+
+        private void backgroundWorker2_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("done");
         }
     }
 }

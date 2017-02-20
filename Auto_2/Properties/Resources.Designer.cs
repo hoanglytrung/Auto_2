@@ -623,6 +623,16 @@ namespace Auto_2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ivern {
+            get {
+                object obj = ResourceManager.GetObject("ivern", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap janna {
             get {
                 object obj = ResourceManager.GetObject("janna", resourceCulture);

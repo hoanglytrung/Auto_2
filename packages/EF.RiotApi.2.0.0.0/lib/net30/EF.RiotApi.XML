@@ -1,0 +1,1280 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EF.RiotApi</name>
+    </assembly>
+    <members>
+        <member name="T:EF.RiotApi.Caching.ApiCache">
+            <summary>
+            This class will hold caches of all of the Api data
+            in an effort to reduce the number of api calls the 
+            developer has to make
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Caching.ApiCache.Instance">
+            <summary>
+            The instance of the Api Cache
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Caching.ApiCache.Champions">
+            <summary>
+            The list of champions
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Caching.ApiCache.CachingEnabled">
+            <summary>
+            If caching is enabled or not
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Client.API.ChampionApi">
+            <summary>
+            The Champion Api
+            https://developer.riotgames.com/api/methods#!/291
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Client.API.RiotApi">
+            <summary>
+            The base class for all riot apis
+            </summary>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.RiotApi.GetApiUri(System.String,System.String,System.Int64,System.String,System.String,System.String,System.Boolean,System.String,System.String)">
+            <summary>
+            Returns the string for the api uri based on the given parameters. 
+            Only pass in what you need here. Name parameters are your friend.
+            </summary>
+            <param name="api">Api name</param>
+            <param name="method">Api method (optional)</param>
+            <param name="summonerId">The summoner id (optional)</param>
+            <param name="region">The region(optional)</param>
+            <param name="version">The api version (optional)</param>
+            <param name="season">The season (optional)</param>
+            <param name="freeToPlay">If free to play (optional)</param>
+            <param name="summonerName">The summoner name (optional)</param>
+            <param name="summonerIds">The summoner ids (optional)</param>
+            <returns>The request string to the given api (optional)</returns>
+        </member>
+        <member name="P:EF.RiotApi.Client.API.RiotApi.ApiKey">
+            <summary>
+            The Api Key
+            Get one at http://developer.riotgames.com/
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Client.API.RiotApi.ApiUrl">
+            <summary>
+            The Api Url
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Client.API.RiotApi.ApiRegion">
+            <summary>
+            The Api Region
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Client.API.RiotApi.ApiVerision">
+            <summary>
+            The Api Version
+            </summary>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.ChampionApi.GetChampions(System.String,System.Boolean)">
+            <summary>
+            Retrieve all champions
+            </summary>
+            <param name="region">The region of the leagues</param>
+            <param name="freeToPlay">Optional filter param to retrieve only free to play champions.</param>
+            <returns>Champions result</returns>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.ChampionApi.GetApiUri(System.String,System.String,System.Int64,System.String,System.String,System.String,System.Boolean,System.String,System.String)">
+            <summary>
+            Returns the string for the api uri based on the given parameters. 
+            Only pass in what you need here. Name parameters are your friend.
+            </summary>
+            <param name="api">Api name</param>
+            <param name="method">Api method (optional)</param>
+            <param name="summonerId">The summoner id (optional)</param>
+            <param name="region">The region(optional)</param>
+            <param name="version">The api version (optional)</param>
+            <param name="season">The season (optional)</param>
+            <param name="freeToPlay">If free to play (optional)</param>
+            <param name="summonerName">The summoner name (optional)</param>
+            <param name="summonerIds">The summoner ids (optional)</param>
+            <returns>The request string to the given api (optional)</returns>
+        </member>
+        <member name="P:EF.RiotApi.Client.API.ChampionApi.Instance">
+            <summary>
+            The instance of the Champion Api
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Client.API.GameApi">
+            <summary>
+            The Game Api
+            https://developer.riotgames.com/api/methods#!/292
+            </summary>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.GameApi.GetGamesBySummoner(System.Int64,System.String)">
+            <summary>
+            Get recent games by summoner ID
+            </summary>
+            <param name="summonerId">ID of the summoner for which to retrieve recent games.</param>
+            <param name="region">Region where to retrieve the data</param>
+            <returns>The Summoners Recent Games</returns>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.GameApi.GetApiUri(System.String,System.String,System.Int64,System.String,System.String,System.String,System.Boolean,System.String,System.String)">
+            <summary>
+            Returns the string for the api uri based on the given parameters. 
+            Only pass in what you need here. Name parameters are your friend.
+            </summary>
+            <param name="api">Api name</param>
+            <param name="method">Api method (optional)</param>
+            <param name="summonerId">The summoner id (optional)</param>
+            <param name="region">The region(optional)</param>
+            <param name="version">The api version (optional)</param>
+            <param name="season">The season (optional)</param>
+            <param name="freeToPlay">If free to play (optional)</param>
+            <param name="summonerName">The summoner name (optional)</param>
+            <param name="summonerIds">The summoner ids (optional)</param>
+            <returns>The request string to the given api (optional)</returns>
+        </member>
+        <member name="P:EF.RiotApi.Client.API.GameApi.Instance">
+            <summary>
+            The instance of the Game Api
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Client.API.LeagueApi">
+            <summary>
+            The Leage Api
+            https://developer.riotgames.com/api/methods#!/254
+            </summary>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.LeagueApi.GetLeagueBySummoner(System.Int64,System.String)">
+            <summary>
+            Retrieves leagues data for summoner, including leagues for all of summoner's teams
+            </summary>
+            <param name="summonerId">Summoner ID</param>
+            <param name="region">The region of the leagues</param>
+            <returns>A dictonary with the key as league name, and the value the League DTO</returns>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.LeagueApi.GetApiUri(System.String,System.String,System.Int64,System.String,System.String,System.String,System.Boolean,System.String,System.String)">
+            <summary>
+            Returns the string for the api uri based on the given parameters. 
+            Only pass in what you need here. Name parameters are your friend.
+            </summary>
+            <param name="api">Api name</param>
+            <param name="method">Api method (optional)</param>
+            <param name="summonerId">The summoner id (optional)</param>
+            <param name="region">The region(optional)</param>
+            <param name="version">The api version (optional)</param>
+            <param name="season">The season (optional)</param>
+            <param name="freeToPlay">If free to play (optional)</param>
+            <param name="summonerName">The summoner name (optional)</param>
+            <param name="summonerIds">The summoner ids (optional)</param>
+            <returns>The request string to the given api (optional)</returns>
+        </member>
+        <member name="P:EF.RiotApi.Client.API.LeagueApi.Instance">
+            <summary>
+            The instance of the League Api
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Client.API.StatsApi">
+            <summary>
+            The Stats Api
+            https://developer.riotgames.com/api/methods#!/294
+            </summary>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.StatsApi.GetPlayerStatsSummary(System.Int64,System.String,System.String)">
+            <summary>
+            Get player stats summaries by summoner ID. One summary is returned per queue type
+            </summary>
+            <param name="summonerId">ID of the summoner for which to retrieve player stats.</param>
+            <param name="region">Region where to retrieve the data.</param>
+            <param name="season">If specified, stats for the given season are returned. Otherwise, stats for the current season are returned.</param>
+            <returns>Player stats summary result</returns>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.StatsApi.GetApiUri(System.String,System.String,System.Int64,System.String,System.String,System.String,System.Boolean,System.String,System.String)">
+            <summary>
+            Returns the string for the api uri based on the given parameters. 
+            Only pass in what you need here. Name parameters are your friend.
+            </summary>
+            <param name="api">Api name</param>
+            <param name="method">Api method (optional)</param>
+            <param name="summonerId">The summoner id (optional)</param>
+            <param name="region">The region(optional)</param>
+            <param name="version">The api version (optional)</param>
+            <param name="season">The season (optional)</param>
+            <param name="freeToPlay">If free to play (optional)</param>
+            <param name="summonerName">The summoner name (optional)</param>
+            <param name="summonerIds">The summoner ids (optional)</param>
+            <returns>The request string to the given api (optional)</returns>
+        </member>
+        <member name="P:EF.RiotApi.Client.API.StatsApi.Instance">
+            <summary>
+            The instance of the Stats Api
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Client.API.SummonerApi">
+            <summary>
+            The Summoner Api
+            </summary>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.SummonerApi.GetSummonerRunes(System.Int64,System.String)">
+            <summary>
+            Get rune pages by summoner ID
+            </summary>
+            <param name="summonerId">ID of the summoner for which to retrieve rune pages.</param>
+            <param name="region">Region where to retrieve the data.</param>
+            <returns>The rune pages result</returns>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.SummonerApi.GetSummonerMasteries(System.Int64,System.String)">
+            <summary>
+            Get mastery pages by summoner ID
+            </summary>
+            <param name="summonerId">ID of the summoner for which to retrieve mastery pages.</param>
+            <param name="region">Region where to retrieve the data.</param>
+            <returns>The Mastery Pages</returns>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.SummonerApi.GetSummoner(System.String,System.String)">
+            <summary>
+            Get summoner by name 
+            </summary>
+            <param name="name">Name of summoner to retrieve.</param>
+            <param name="region">Region where to retrieve the data.</param>
+            <returns>A Summoner</returns>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.SummonerApi.GetSummoner(System.Int64,System.String)">
+            <summary>
+            Get summoner by summoner ID 
+            </summary>
+            <param name="summonerId">ID of the summoner to retrieve</param>
+            <param name="region">Region where to retrieve the data.</param>
+            <returns>A Summoner</returns>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.SummonerApi.GetSummoners(System.String,System.String)">
+            <summary>
+            Get list of summoner names by summoner ID
+            </summary>
+            <param name="summonerIds">Comma-separated list of summoner IDs associated with summoner names to retrieve. Maximum allowed at once is 40.</param>
+            <param name="region">Region where to retrieve the data.</param>
+            <returns>The list of summoner name information.</returns>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.SummonerApi.GetApiUri(System.String,System.String,System.Int64,System.String,System.String,System.String,System.Boolean,System.String,System.String)">
+            <summary>
+            Returns the string for the api uri based on the given parameters. 
+            Only pass in what you need here. Name parameters are your friend.
+            </summary>
+            <param name="api">Api name</param>
+            <param name="method">Api method (optional)</param>
+            <param name="summonerId">The summoner id (optional)</param>
+            <param name="region">The region(optional)</param>
+            <param name="version">The api version (optional)</param>
+            <param name="season">The season (optional)</param>
+            <param name="freeToPlay">If free to play (optional)</param>
+            <param name="summonerName">The summoner name (optional)</param>
+            <param name="summonerIds">The summoner ids (optional)</param>
+            <returns>The request string to the given api (optional)</returns>
+        </member>
+        <member name="P:EF.RiotApi.Client.API.SummonerApi.Instance">
+            <summary>
+            The instance of the Summoner Api
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Client.API.TeamApi">
+            <summary>
+            The Team Api
+            https://developer.riotgames.com/api/methods#!/256
+            </summary>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.TeamApi.GetSummonerTeams(System.Int64,System.String)">
+            <summary>
+            Retrieves teams for given summoner ID
+            </summary>
+            <param name="summonerId">ID of the summoner for which to retrieve player stats.</param>
+            <param name="region">Region where to retrieve the data.</param>
+            <returns>The summoners teams</returns>
+        </member>
+        <member name="M:EF.RiotApi.Client.API.TeamApi.GetApiUri(System.String,System.String,System.Int64,System.String,System.String,System.String,System.Boolean,System.String,System.String)">
+            <summary>
+            Returns the string for the api uri based on the given parameters. 
+            Only pass in what you need here. Name parameters are your friend.
+            </summary>
+            <param name="api">Api name</param>
+            <param name="method">Api method (optional)</param>
+            <param name="summonerId">The summoner id (optional)</param>
+            <param name="region">The region(optional)</param>
+            <param name="version">The api version (optional)</param>
+            <param name="season">The season (optional)</param>
+            <param name="freeToPlay">If free to play (optional)</param>
+            <param name="summonerName">The summoner name (optional)</param>
+            <param name="summonerIds">The summoner ids (optional)</param>
+            <returns>The request string to the given api (optional)</returns>
+        </member>
+        <member name="P:EF.RiotApi.Client.API.TeamApi.Instance">
+            <summary>
+            The singleton instance of the Team Api
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Client.JsonWebRequest`1">
+            <summary>
+            This class creates web requests that parse a json response and 
+            return the deserialized value.
+            </summary>
+            <typeparam name="T">The type to serialize the response to</typeparam>
+        </member>
+        <member name="M:EF.RiotApi.Client.JsonWebRequest`1.CreateRequest(System.String)">
+            <summary>
+            Creates a synchronous request to the given url
+            </summary>
+            <param name="url">The url to make the request to</param>
+            <returns>The deserialized response object</returns>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Stats.AggregatedStatDto">
+            <summary>
+            The aggregated stats data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Stats.AggregatedStatDto.Count">
+            <summary>
+            Aggregated stat value.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Stats.AggregatedStatDto.Id">
+            <summary>
+            Aggregated stat type ID.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Stats.AggregatedStatDto.Name">
+            <summary>
+            Aggregated stat type name.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Game.GameDto">
+            <summary>
+            The game data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.ChampionId">
+            <summary>
+            Champion ID associated with game.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.CreateDate">
+            <summary>
+            Date game was played specified as epoch milliseconds.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.CreateDateStr">
+            <summary>
+            Human readable string representing date game was played.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.FellowPlayers">
+            <summary>
+            Other players associated with the game.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.GameId">
+            <summary>
+            Game ID.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.GameMode">
+            <summary>
+            Game mode.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.GameType">
+            <summary>
+            Game type.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.Invalid">
+            <summary>
+            Invalid flag.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.Level">
+            <summary>
+            Level.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.MapId">
+            <summary>
+            Map ID.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.Spell1">
+            <summary>
+            ID of first summoner spell.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.Spell2">
+            <summary>
+            ID of second summoner spell.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.Statistics">
+            <summary>
+            Statistics associated with the game for this summoner.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.SubType">
+            <summary>
+            Game sub-type.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.GameDto.TeamId">
+            <summary>
+            Team ID associated with game.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.League.LeagueDto">
+            <summary>
+            The league data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDto.Name">
+            <summary>
+            The league name
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDto.Queue">
+            <summary>
+            (legal values: RANKED_SOLO_5x5, RANKED_TEAM_3x3, RANKED_TEAM_5x5)
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDto.Tier">
+            <summary>
+            (legal values: CHALLENGER, DIAMOND, PLATINUM, GOLD, SILVER, BRONZE)
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDto.Timestamp">
+            <summary>
+            The timestamp for this query
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDto.Entries">
+            <summary>
+            The information entries for the league
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.League.LeagueDtoEntry">
+            <summary>
+            The league data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.IsFreshBlood">
+            <summary>
+            If the player or team is new to the league
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.IsHotStreak">
+            <summary>
+            If the player or team is on a hot streak
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.IsInactive">
+            <summary>
+            If the player or team is inactive
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.IsVeteran">
+            <summary>
+            If the player or team is a veteran of this league (over 100 played games in it)
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.LastPlayed">
+            <summary>
+            The last time the player or team played in this league
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.LeagueName">
+            <summary>
+            The league name
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.LeaguePoints">
+            <summary>
+            The number of league points the player or team has
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.Losses">
+            <summary>
+            The number of losses the player or team has
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.MiniSeries">
+            <summary>
+            The current miniseries data for the player or team
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.PlayerOrTeamId">
+            <summary>
+            The player or team id
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.PlayerOrTeamName">
+            <summary>
+            The player or team name
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.QueueType">
+            <summary>
+            The queue type
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.Rank">
+            <summary>
+            The current rank of the player or team
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.Tier">
+            <summary>
+            The current tier of the player or team
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.TimeUntilDecay">
+            <summary>
+            The amount of time until decay
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.LeagueDtoEntry.Wins">
+            <summary>
+            The number of wins the player or team has
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.League.MiniSeriesDto">
+            <summary>
+            The miniseries data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.MiniSeriesDto.Losses">
+            <summary>
+            The number of losses in the miniseries
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.MiniSeriesDto.Progress">
+            <summary>
+            The progress of the miniseries
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.MiniSeriesDto.Target">
+            <summary>
+            Teh target for the miniseries
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.MiniSeriesDto.TimeLeftToPlayMillis">
+            <summary>
+            The time left to complete the miniseries
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.League.MiniSeriesDto.Wins">
+            <summary>
+            The number of wins in the miniseries
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Game.PlayerDto">
+            <summary>
+            The player stats data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.PlayerDto.ChampionId">
+            <summary>
+            Champion id associated with player.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.PlayerDto.SummonerId">
+            <summary>
+            Summoner id associated with player.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.PlayerDto.TeamId">
+            <summary>
+            Team id associated with player.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Stats.PlayerStatsSummaryDto">
+            <summary>
+            The player stats summary object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Stats.PlayerStatsSummaryDto.AggregatedStats">
+            <summary>
+            List of aggregated stats.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Stats.PlayerStatsSummaryDto.Losses">
+            <summary>
+            Number of losses for this queue type. Returned for ranked queue types only.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Stats.PlayerStatsSummaryDto.ModifyDate">
+            <summary>
+            Date stats were last modified specified as epoch milliseconds.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Stats.PlayerStatsSummaryDto.ModifyDateStr">
+            <summary>
+            Human readable string representing date stats were last modified.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Stats.PlayerStatsSummaryDto.PlayerStatSummaryType">
+            <summary>
+            Player stats summary type.
+            Legal Values: 
+            AramUnranked5x5
+            CoopVsAI
+            OdinUnranked
+            RankedPremade3x3
+            RankedPremade5x5
+            RankedSolo5x5
+            RankedTeam3x3
+            RankedTeam5x5
+            Unranked
+            Unranked3x3)
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Stats.PlayerStatsSummaryDto.Wins">
+            <summary>
+            Number of wins for this queue type.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Game.RawStatDto">
+            <summary>
+            The raw stats data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.RawStatDto.Id">
+            <summary>
+            Raw stat ID.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.RawStatDto.Name">
+            <summary>
+            Raw stat name.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.RawStatDto.Value">
+            <summary>
+            Raw stat value.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Game.RecentGamesDto">
+            <summary>
+            The recent games data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.RecentGamesDto.Games">
+            <summary>
+            The lis tof recent games
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Game.RecentGamesDto.SummonerId">
+            <summary>
+            The summoner id who played the games
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Summoner.Masteries.MasteryPageDto">
+            <summary>
+            The master page data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Masteries.MasteryPageDto.Current">
+            <summary>
+            Indicates if the mastery page is the current mastery page.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Masteries.MasteryPageDto.Name">
+            <summary>
+            Mastery page name.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Masteries.MasteryPageDto.Talents">
+            <summary>
+            List of mastery page talents associated with the mastery page.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Summoner.Masteries.TalentDto">
+            <summary>
+            The talent data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Masteries.TalentDto.Id">
+            <summary>
+            Talent id.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Masteries.TalentDto.Name">
+            <summary>
+            Talent name.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Masteries.TalentDto.Rank">
+            <summary>
+            Talent rank.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Summoner.Runes.RuneDto">
+            <summary>
+            The rune data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Runes.RuneDto.Description">
+            <summary>
+            Rune description.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Runes.RuneDto.Id">
+            <summary>
+            Rune ID.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Runes.RuneDto.Name">
+            <summary>
+            Rune name.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Runes.RuneDto.Tier">
+            <summary>
+            Rune tier.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Summoner.Runes.RunePageDto">
+            <summary>
+            The rune page data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Runes.RunePageDto.Current">
+            <summary>
+            Indicates if the page is the current page.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Runes.RunePageDto.Id">
+            <summary>
+            Rune page ID.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Runes.RunePageDto.Name">
+            <summary>
+            Rune page name.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Runes.RunePageDto.Slots">
+            <summary>
+            List of rune slots associated with the rune page.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Summoner.Runes.RuneSlotDto">
+            <summary>
+            The rune slot data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Runes.RuneSlotDto.Rune">
+            <summary>
+            Rune associated with the rune slot.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.Runes.RuneSlotDto.RuneSlotId">
+            <summary>
+            Rune slot ID.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Summoner.SummonerDto">
+            <summary>
+            The summoner data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.SummonerDto.Id">
+            <summary>
+            Summoner ID.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.SummonerDto.Name">
+            <summary>
+            Summoner name.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.SummonerDto.ProfileIconId">
+            <summary>
+            ID of the summoner icon associated with the summoner.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.SummonerDto.RevisionDate">
+            <summary>
+            Date summoner was last modified specified as epoch milliseconds.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.SummonerDto.RevisionDateStr">
+            <summary>
+            Human readable string representing date summoner was last modified.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.SummonerDto.SummonerLevel">
+            <summary>
+            Summoner level associated with the summoner.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Summoner.SummonerNameDto">
+            <summary>
+            The summoner name data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.SummonerNameDto.Id">
+            <summary>
+            Summoner ID.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Summoner.SummonerNameDto.Name">
+            <summary>
+            Summoner name
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Team.MatchHistorySummaryDto">
+            <summary>
+            The match history summory data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MatchHistorySummaryDto.Assists">
+            <summary>
+            The number of assists in the match
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MatchHistorySummaryDto.Date">
+            <summary>
+            The date of the match
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MatchHistorySummaryDto.Deaths">
+            <summary>
+            The number of deaths in the match
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MatchHistorySummaryDto.GameId">
+            <summary>
+            The game id
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MatchHistorySummaryDto.GameMode">
+            <summary>
+            The game mode
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MatchHistorySummaryDto.Invalid">
+            <summary>
+            If the match was invalid
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MatchHistorySummaryDto.Kills">
+            <summary>
+            The number of kills in the match
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MatchHistorySummaryDto.MapId">
+            <summary>
+            The map id
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MatchHistorySummaryDto.OpposingTeamKills">
+            <summary>
+            The number of kills the opposing team had
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MatchHistorySummaryDto.OpposingTeamName">
+            <summary>
+            The opposing team name
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MatchHistorySummaryDto.Win">
+            <summary>
+            If the team won or not
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Team.MessageOfDayDto">
+            <summary>
+            The message of the day
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MessageOfDayDto.CreateDate">
+            <summary>
+            The date the message was created
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MessageOfDayDto.Message">
+            <summary>
+            The message
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.MessageOfDayDto.Version">
+            <summary>
+            The version
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Team.RosterDto">
+            <summary>
+            A team roster
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.RosterDto.MemberList">
+            <summary>
+            The list of team member infoes
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Team.TeamDto">
+            <summary>
+            The team data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.CreateDate">
+            <summary>
+            The date the team was created
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.LastGameDate">
+            <summary>
+            The date of the last game the team played
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.LastJoinDate">
+            <summary>
+            The last join date
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.LastJoinedRankedTeamQueueDate">
+            <summary>
+            The last joined ranked team queue date
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.MatchHistory">
+            <summary>
+            The list of match history for the team
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.MessageOfDay">
+            <summary>
+            The teams message of the day
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.ModifyDate">
+            <summary>
+            The last time the team was modified
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.Name">
+            <summary>
+            The team name
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.Roster">
+            <summary>
+            The team roster
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.SecondLastJoinDate">
+            <summary>
+            The second last join date
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.Status">
+            <summary>
+            The team status
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.Tag">
+            <summary>
+            The team tag
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.TeamId">
+            <summary>
+            The team id
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.TeamStatSummary">
+            <summary>
+            The stat summary for the team
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.ThirdLastJoinDate">
+            <summary>
+            The third last join date
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamDto.Timestamp">
+            <summary>
+            The timestamp
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Team.TeamIdDto">
+            <summary>
+            The team id data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamIdDto.FullId">
+            <summary>
+            The full team id
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Team.TeamMemberInfoDto">
+            <summary>
+            Contains information about the team member
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamMemberInfoDto.InviteDate">
+            <summary>
+            The date the team member was invited
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamMemberInfoDto.JoinDate">
+            <summary>
+            The date the team member joined
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamMemberInfoDto.PlayerId">
+            <summary>
+            The team members player id
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamMemberInfoDto.Status">
+            <summary>
+            The team members status
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Team.TeamStatDetailDto">
+            <summary>
+            The team stats data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamStatDetailDto.AverageGamesPlayed">
+            <summary>
+            The average games played
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamStatDetailDto.Losses">
+            <summary>
+            The number of losses the team has
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamStatDetailDto.MaxRating">
+            <summary>
+            The teams max rating
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamStatDetailDto.Rating">
+            <summary>
+            The teams current rating
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamStatDetailDto.SeedRating">
+            <summary>
+            The teams seed rating
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamStatDetailDto.TeamId">
+            <summary>
+            The team id
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamStatDetailDto.TeamStatType">
+            <summary>
+            The team stat type
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamStatDetailDto.Wins">
+            <summary>
+            Number of wins the team has
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Team.TeamStatSummaryDto">
+            <summary>
+            The result of a team stat summary api request
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamStatSummaryDto.TeamId">
+            <summary>
+            The taam Id
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Team.TeamStatSummaryDto.TeamStatDetails">
+            <summary>
+            A list of detailed team stats
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.WebRequestResults.LeagueResult">
+            <summary>
+            The result of a league api request
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.WebRequestResults.MasterPagesResult">
+            <summary>
+            The result of a master pages api request
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.WebRequestResults.MasterPagesResult.Pages">
+            <summary>
+            List of mastery pages associated with the summoner.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.WebRequestResults.MasterPagesResult.SummonerId">
+            <summary>
+            Summoner ID.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.WebRequestResults.PlayerStatsSummaryResult">
+            <summary>
+            The result of a player stat summary api request
+            </summary>
+        </member>
+        <member name="F:EF.RiotApi.WebRequestResults.PlayerStatsSummaryResult.PlayerStatSummaries">
+            <summary>
+            List of player stats summaries associated with the summoner.
+            </summary>
+        </member>
+        <member name="F:EF.RiotApi.WebRequestResults.PlayerStatsSummaryResult.SummonerId">
+            <summary>
+            Summoner ID
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.WebRequestResults.RecentGamesResult">
+            <summary>
+            The result of a recent game api request
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Dto.Champion.ChampionDto">
+            <summary>
+            The champion data object
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Champion.ChampionDto.Id">
+            <summary>
+            Champion ID
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Champion.ChampionDto.Active">
+            <summary>
+            Indicates if the champion is active.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Champion.ChampionDto.AttackRank">
+            <summary>
+            Champion attack rank.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Champion.ChampionDto.BotEnabled">
+            <summary>
+            Bot enabled flag (for custom games).
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Champion.ChampionDto.BotMmEnabled">
+            <summary>
+            Bot Match Made enabled flag (for Co-op vs. AI games).
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Champion.ChampionDto.DefenseRank">
+            <summary>
+            Champion defense rank.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Champion.ChampionDto.DifficultyRank">
+            <summary>
+            Champion difficulty rank.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Champion.ChampionDto.FreeToPlay">
+            <summary>
+            Indicates if the champion is free to play. Free to play champions are rotated periodically.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Champion.ChampionDto.MagicRank">
+            <summary>
+            Champion magic rank.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Champion.ChampionDto.Name">
+            <summary>
+            Champion name.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Dto.Champion.ChampionDto.RankedPlayEnabled">
+            <summary>
+            Ranked play enabled flag.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.WebRequestResults.ChampionsResult">
+            <summary>
+            The result of a champions api request
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.WebRequestResults.ChampionsResult.Champions">
+            <summary>
+            The list of champions
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.Client.RiotWeb">
+            <summary>
+            RiotWeb wraps all the apis that are a part of the Developer Api.
+            It has properties that allow quick acess to all the different apis
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Client.RiotWeb.API">
+            <summary>
+            Gets the instance of the RiotWeb wrapper
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Client.RiotWeb.Champion">
+            <summary>
+            Returns the instance of the Champion Api
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Client.RiotWeb.Game">
+            <summary>
+            Returns the instance of the Game Api
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Client.RiotWeb.League">
+            <summary>
+            Returns the instance of the League Api
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Client.RiotWeb.Stats">
+            <summary>
+            Returns the instance of the Stats Api
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Client.RiotWeb.Summoner">
+            <summary>
+            Returns the instance of the Summoner Api
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.Client.RiotWeb.Team">
+            <summary>
+            Returns the instance of the Team Api
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.WebRequestResults.RunePagesResult">
+            <summary>
+            The result of a rune page api request
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.WebRequestResults.RunePagesResult.Pages">
+            <summary>
+            Set of rune pages associated with the summoner.
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.WebRequestResults.RunePagesResult.SummonerId">
+            <summary>
+            Summoner ID.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.WebRequestResults.SummonerNameListResult">
+            <summary>
+            The result of requesting a summoner name list
+            </summary>
+        </member>
+        <member name="P:EF.RiotApi.WebRequestResults.SummonerNameListResult.Summoners">
+            <summary>
+            The list of summoner name information.
+            </summary>
+        </member>
+        <member name="T:EF.RiotApi.WebRequestResults.TeamResult">
+            <summary>
+            Holds the result of as Team Api Request
+            </summary>
+        </member>
+    </members>
+</doc>
