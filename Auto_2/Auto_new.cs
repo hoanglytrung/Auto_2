@@ -1040,8 +1040,9 @@ namespace Auto_2
                     if (Compare(Xep_hang_dong_HCLP, Resources.Check_xephang_HCLP) == true && Pause_Auto == false && Stop_Auto == false)
                     {
                         //SetForegroundWindow(_Handle);
-                        ClickOnPoint(_Handle, new Point(185, 555));
                         Thread.Sleep(200);
+                        ClickOnPoint(_Handle, new Point(185, 555));
+                        
                         SetPause(); SetStop();
                     }
 
@@ -1066,7 +1067,7 @@ namespace Auto_2
                     }
                     #endregion
                     //Update_log_textbox("xác nhận");
-                   // Thread.Sleep(100);
+                    Thread.Sleep(100);
                     #region Xếp hạng
                     if (Compare(Xep_hang, Resources.xephangdong) == true && Pause_Auto == false && Stop_Auto == false)
                     {
@@ -1089,7 +1090,7 @@ namespace Auto_2
                     }
                     #endregion
                     //Update_log_textbox("chọn roll");
-                   // Thread.Sleep(100);
+                    Thread.Sleep(100);
                     #region Tìm trận
                     if (Compare(Tim_tran, Resources.timtran) == true && Pause_Auto == false && Stop_Auto == false)
                     {
@@ -1113,7 +1114,7 @@ namespace Auto_2
                     }
                     #endregion
                     //Update_log_textbox("đồng ý");
-                  //  Thread.Sleep(100);
+                    Thread.Sleep(100);
                     #region Cấm
                     if (Compare(Cam, Resources.cam) == true && Pause_Auto == false && Stop_Auto == false)
                     {
@@ -1179,7 +1180,7 @@ namespace Auto_2
                     }
                     #endregion
                     //Update_log_textbox("chọn tướng");
-                 //   Thread.Sleep(100);
+                    Thread.Sleep(100);
                     #region vào game
                     if (check_vao_game() == true && Pause_Auto == false && Stop_Auto == false)
                     {
