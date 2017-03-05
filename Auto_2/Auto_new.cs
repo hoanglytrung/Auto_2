@@ -992,6 +992,7 @@ namespace Auto_2
             SetStop();
             while (Pause_Auto == false && Stop_Auto == false)
             {
+                bool Rank_Ticked = false;
                 while (Form1.SotrandungAuto() > 0 && Pause_Auto == false && Stop_Auto == false)
                 {
                     #region Auto
@@ -1015,20 +1016,42 @@ namespace Auto_2
                     Bitmap Dong_y = CropBitmap(Screen, 95, 25, 585, 535);
                     Bitmap Cam = CropBitmap(Screen, 125, 40, 580, 1);
                     Bitmap Chon_tuong = CropBitmap(Screen, 100, 20, 590, 10);
-                    Bitmap Choi_lai = CropBitmap(Screen, 155, 25, 535, 675);
+                    Bitmap Choi_lai = CropBitmap(Screen, 155, 25, 535, 675);                  
+                    //Choi_lai.Save(@"C:\Users\The_Flash\Desktop\ccccccd.png", ImageFormat.Png);                  
                     Bitmap Xep_hang_dong_HCLP = CropBitmap(Screen, 195, 25, 73, 544);
                     //watch.Stop();
                     //MessageBox.Show(watch.ElapsedMilliseconds.ToString());
 
 
                     #region Đấu
-                    if (Compare(Dau, Resources.dau) == true && Pause_Auto == false && Stop_Auto == false)
+                    if (Compare(CropBitmap(PrintWindow1(_Handle), 123, 40, 67, 20), Resources.dau) == true && Pause_Auto == false && Stop_Auto == false)
                     {
                         SetForegroundWindow(_Handle);
                         //Thread.Sleep(700);
                         ClickOnPoint(_Handle, new Point(128, 35));
                         Update_log_textbox("Tạo phòng đấu với máy");
                         ClickOnPoint(_Handle, new Point(46, 97));
+                        bool done = false;
+                        while (done == false)
+                        {
+                            //vị trí có hàng chờ luân phiên
+                            if (Compare(CropBitmap(PrintWindow1(_Handle), 195, 25, 73, 544), Resources.Check_xephang_HCLP) == true && Pause_Auto == false && Stop_Auto == false)
+                            {
+                                //SetForegroundWindow(_Handle);
+                                ClickOnPoint(_Handle, new Point(185, 555));
+                                Thread.Sleep(200);
+                                SetPause(); SetStop();
+                                done = true;
+                            }
+                            //if (Compare(CropBitmap(PrintWindow1(_Handle), 195, 25, 199, 543), Resources.check_xephang) == true && Pause_Auto == false && Stop_Auto == false)
+                            //{
+                            //    //SetForegroundWindow(_Handle);
+                            //    ClickOnPoint(_Handle, new Point(310, 555));
+                            //    Thread.Sleep(200);
+                            //    SetPause(); SetStop();
+                            //    done = true;
+                            //}
+                        }
                         SetPause(); SetStop();
                     }
                     //Update_log_textbox("đấu");
@@ -1042,7 +1065,7 @@ namespace Auto_2
                         //SetForegroundWindow(_Handle);
                         Thread.Sleep(200);
                         ClickOnPoint(_Handle, new Point(185, 555));
-                        
+                        Rank_Ticked = true;
                         SetPause(); SetStop();
                     }
 
@@ -1052,17 +1075,18 @@ namespace Auto_2
                     //    ClickOnPoint(_Handle, new Point(310, 555));
                     //    Thread.Sleep(200);
                     //    SetPause(); SetStop();
-                    //    done = true;
+                      
                     //}
                     #endregion
 
                     #region Xác nhận
-                    if (Compare(Xac_nhan, Resources.xacnhan) == true && Pause_Auto == false && Stop_Auto == false)
+                    if (Compare(Xac_nhan, Resources.xacnhan) == true && Pause_Auto == false && Stop_Auto == false && Rank_Ticked == true)
                     {
                         SetForegroundWindow(_Handle);
 
                         //CropBitmap(PrintWindow1(_Handle), 195, 25, 199, 543).Save("bbbb.png", ImageFormat.Png);
                         ClickOnPoint(_Handle, new Point(623, 687));
+                        Rank_Ticked = false;
                         Update_log_textbox("Click xác nhận");
                     }
                     #endregion
@@ -1229,7 +1253,7 @@ namespace Auto_2
                         while (n == 0)
                         {
                             //SetForegroundWindow(_Handle);
-                            if (Compare(CropBitmap(PrintWindow1(_Handle), 155, 25, 535, 675), Resources.cl) == true && Pause_Auto == false && Stop_Auto == false)
+                            if (Compare(CropBitmap(PrintWindow1(_Handle), 155, 25, 535, 675), Resources.choilai) == true && Pause_Auto == false && Stop_Auto == false)
                             {
                                 SetForegroundWindow(_Handle);
                                 Thread.Sleep(2000);
@@ -1251,7 +1275,7 @@ namespace Auto_2
                     //Update_log_textbox("vào game");
                  //   Thread.Sleep(100);
                     #region Chơi lại
-                    if (Compare(Choi_lai, Resources.cl) == true && Pause_Auto == false && Stop_Auto == false)
+                    if (Compare(Choi_lai, Resources.choilai) == true && Pause_Auto == false && Stop_Auto == false)
                     {
                         SetForegroundWindow(_Handle);
                         ClickOnPoint(_Handle, new Point(616, 687));

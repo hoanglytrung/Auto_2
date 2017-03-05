@@ -528,9 +528,6 @@
     <EmbeddedResource Include="Resources\cam_button.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\choilai.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\chonroll.png" />
   </ItemGroup>
   <ItemGroup>
@@ -613,6 +610,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ivern.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Source\choilai.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\choilai.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

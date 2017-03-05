@@ -847,7 +847,7 @@ namespace Auto_2
 
         private void button11_Click(object sender, EventArgs e)
         {
-            if (!backgroundWorker1.IsBusy)
+            if (!backgroundWorker2.IsBusy)
             {
                 if (FindWindow("RCLIENT", "League of Legends") != IntPtr.Zero)
                 {
@@ -891,5 +891,7 @@ namespace Auto_2
         {
             MessageBox.Show("done");
         }
+
+       
     }
 }

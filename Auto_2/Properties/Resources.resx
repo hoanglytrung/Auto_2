@@ -178,9 +178,6 @@
   <data name="cassiopeia" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cassiopeia.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="choilai" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\choilai.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="chonroll" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\chonroll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -606,5 +603,8 @@
   </data>
   <data name="_cont" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\_cont.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="choilai" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\Source\choilai.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
